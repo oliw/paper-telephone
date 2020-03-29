@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Client } from "boardgame.io/react";
+import { Local } from "boardgame.io/multiplayer";
+import Game from "./game";
+import Board from "./board";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const PaperTelephoneClient = Client({
+  game: Game,
+  board: Board,
+  multiplayer: Local()
+});
+
+const App = () => (
+  <div>
+    <PaperTelephoneClient playerID="0" />
+    <PaperTelephoneClient playerID="1" />
+  </div>
+);
 
 export default App;
