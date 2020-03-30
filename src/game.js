@@ -40,6 +40,13 @@ class Paper {
   currentUnfilledEntry() {
     return this.entries.find(entry => entry.notFilledIn());
   }
+
+  latestEntry() {
+    return this.entries
+      .slice()
+      .reverse()
+      .find(entry => !entry.notFilledIn());
+  }
 }
 
 function OnBegin(G, ctx) {
@@ -99,7 +106,7 @@ function isGameFinished(G) {
 const Game = {
   setup: ctx => {
     const numPlayers = ctx.numPlayers;
-    const numberOfRounds = numPlayers;
+    const numberOfRounds = numPlayers * 2;
     const papers = Array(numPlayers);
     const playerIdsToPaperIdx = {};
     for (let i = 0; i < numPlayers; i++) {

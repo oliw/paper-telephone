@@ -1,28 +1,16 @@
 import React from "react";
+import Drawer from "./draw";
+import Writer from "./write";
 
 function Board(props) {
   const { moves, events, G, ctx, playerID } = props;
 
-  const [writing, setWriting] = React.useState("");
-
-  const handleWritingChange = event => {
-    setWriting(event.target.value);
-  };
-
-  const handleSubmitWriting = () => {
+  const handleSubmitWriting = writing => {
     moves.SubmitWriting(writing);
-    setWriting("");
   };
 
-  const [drawing, setDrawing] = React.useState("");
-
-  const handleDrawingChange = event => {
-    setDrawing(event.target.value);
-  };
-
-  const handleSubmitDrawing = () => {
-    moves.SubmitDrawing(drawing);
-    setDrawing("");
+  const handleSubmitDrawing = drawingUri => {
+    moves.SubmitDrawing(drawingUri);
   };
 
   if (ctx.gameover) {
@@ -31,6 +19,21 @@ function Board(props) {
         <h1>Game over!</h1>
       </div>
     );
+  }
+
+  const currentPageIdx = G.playerIdsToPaperIdx[playerID];
+  const currentPage = G.papers[currentPageIdx];
+  const latestEntry = currentPage.latestEntry();
+
+  let latestDrawingUri = null;
+  let latestWriting = null;
+
+  if (latestEntry && G.currentSubmissionMethod === "write") {
+    latestDrawingUri = latestEntry.drawing;
+  }
+
+  if (latestEntry && G.currentSubmissionMethod === "draw") {
+    latestWriting = latestEntry.writing;
   }
 
   return (
@@ -44,18 +47,16 @@ function Board(props) {
         There are {ctx.numPlayers} players. You are player {playerID}
       </p>
       {G.currentSubmissionMethod === "write" && ctx.activePlayers[playerID] && (
-        <>
-          <p>Time to write!</p>
-          <input type="text" value={writing} onChange={handleWritingChange} />
-          <button onClick={handleSubmitWriting}>Submit</button>
-        </>
+        <Writer
+          onPhraseChosen={handleSubmitWriting}
+          previousDrawingUri={latestDrawingUri}
+        />
       )}
       {G.currentSubmissionMethod === "draw" && ctx.activePlayers[playerID] && (
-        <>
-          <p>Time to draw!</p>
-          <input type="text" value={drawing} onChange={handleDrawingChange} />
-          <button onClick={handleSubmitDrawing}>Submit</button>
-        </>
+        <Drawer
+          onImageSelected={handleSubmitDrawing}
+          previousPhrase={latestWriting}
+        />
       )}
       {!ctx.activePlayers[playerID] && (
         <p>Waiting for others to finish their move</p>
