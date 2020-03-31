@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/paper-telephone/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/paper-telephone/static/js/main.61b21d35.chunk.js",
+    "main.js.map": "/paper-telephone/static/js/main.61b21d35.chunk.js.map",
+    "runtime-main.js": "/paper-telephone/static/js/runtime-main.bed0f7ae.js",
+    "runtime-main.js.map": "/paper-telephone/static/js/runtime-main.bed0f7ae.js.map",
+    "static/js/2.863b0d97.chunk.js": "/paper-telephone/static/js/2.863b0d97.chunk.js",
+    "static/js/2.863b0d97.chunk.js.map": "/paper-telephone/static/js/2.863b0d97.chunk.js.map",
+    "index.html": "/paper-telephone/index.html",
+    "precache-manifest.dd6e81566091b96824af71c3997d761b.js": "/paper-telephone/precache-manifest.dd6e81566091b96824af71c3997d761b.js",
+    "service-worker.js": "/paper-telephone/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/paper-telephone/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.863b0d97.chunk.js.LICENSE.txt": "/paper-telephone/static/js/2.863b0d97.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bed0f7ae.js",
+    "static/js/2.863b0d97.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.61b21d35.chunk.js"
+  ]
+}
