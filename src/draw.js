@@ -1,4 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  canvas: {
+    display: "none"
+  },
+  buttonsContainer: {
+    display: "flex"
+  }
+});
 
 function Drawer(props) {
   const { onImageSelected, previousPhrase } = props;
@@ -9,7 +24,7 @@ function Drawer(props) {
   const [imageData, setImageData] = useState(null);
 
   useEffect(() => {
-    if (!videoEl) {
+    if (!videoEl || imageData) {
       return;
     }
     navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
@@ -17,7 +32,7 @@ function Drawer(props) {
       video.srcObject = stream;
       video.play();
     });
-  }, [videoEl]);
+  }, [videoEl, imageData]);
 
   const handleTakePicClick = () => {
     var ctx = canvasEl.current.getContext("2d");
@@ -38,14 +53,37 @@ function Drawer(props) {
   };
 
   return (
-    <div>
-      <p>Time to draw!</p>
-      <p>Can you draw this phrase?</p>
-      <p>{previousPhrase}</p>
-      <video ref={videoEl} autoPlay={true}></video>
-      <canvas ref={canvasEl} width={480} height={640}></canvas>
-      <button onClick={handleTakePicClick}>Take Pic</button>
-      <button onClick={handleClick}>Submit</button>
+    <div className={css(styles.container)}>
+      <div className={css(styles.header)}>
+        <p>Time to draw!</p>
+      </div>
+      <div className={css(styles.promptContainer)}>
+        <p>Can you draw this phrase and take a picture of it?</p>
+        <p>{previousPhrase}</p>
+      </div>
+      <div className={css(styles.drawingContainer)}>
+        {!imageData && (
+          <>
+            <video ref={videoEl} autoPlay={true}></video>
+            <canvas
+              className={css(styles.canvas)}
+              ref={canvasEl}
+              width={640}
+              height={480}
+            ></canvas>
+          </>
+        )}
+        {imageData && <img src={imageData} alt="Foo" />}
+      </div>
+      <div className={css(styles.buttonsContainer)}>
+        {!imageData && (
+          <button onClick={handleTakePicClick}>Take Pic of your drawing</button>
+        )}
+        {imageData && (
+          <button onClick={() => setImageData(null)}>Take another Pic</button>
+        )}
+        {imageData && <button onClick={handleClick}>Submit</button>}
+      </div>
     </div>
   );
 }
