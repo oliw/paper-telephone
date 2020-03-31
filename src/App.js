@@ -14,7 +14,7 @@ const App = () => (
   <div>
     <Lobby
       gameServer={`//games-server.oliverwilkie.com`}
-      lobbyServer={`//paper-gamer.oliverwilkie.com`}
+      lobbyServer={`//games-server.oliverwilkie.com`}
       gameComponents={importedGames}
     />
   </div>
