@@ -1,9 +1,10 @@
 import React from "react";
 import Drawer from "./draw";
 import Writer from "./write";
+import { latestEntry } from "./models/paper";
 
 function Board(props) {
-  const { moves, events, G, ctx, playerID } = props;
+  const { moves, _, G, ctx, playerID } = props;
 
   const handleSubmitWriting = writing => {
     moves.SubmitWriting(writing);
@@ -23,17 +24,17 @@ function Board(props) {
 
   const currentPageIdx = G.playerIdsToPaperIdx[playerID];
   const currentPage = G.papers[currentPageIdx];
-  const latestEntry = currentPage.latestEntry();
+  const latestEnt = latestEntry(currentPage);
 
   let latestDrawingUri = null;
   let latestWriting = null;
 
-  if (latestEntry && G.currentSubmissionMethod === "write") {
-    latestDrawingUri = latestEntry.drawing;
+  if (latestEnt && G.currentSubmissionMethod === "write") {
+    latestDrawingUri = latestEnt.drawing;
   }
 
-  if (latestEntry && G.currentSubmissionMethod === "draw") {
-    latestWriting = latestEntry.writing;
+  if (latestEnt && G.currentSubmissionMethod === "draw") {
+    latestWriting = latestEnt.writing;
   }
 
   return (

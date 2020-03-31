@@ -1,19 +1,22 @@
 import React from "react";
-import { Client } from "boardgame.io/react";
-import { Local } from "boardgame.io/multiplayer";
 import Game from "./game";
 import Board from "./board";
+import { Lobby } from "boardgame.io/react";
 
-const PaperTelephoneClient = Client({
-  game: Game,
-  board: Board,
-  multiplayer: Local()
-});
+const importedGames = [
+  {
+    game: Game,
+    board: Board
+  }
+];
 
 const App = () => (
   <div>
-    <PaperTelephoneClient playerID="0" />
-    <PaperTelephoneClient playerID="1" />
+    <Lobby
+      gameServer={`http://localhost:8000`}
+      lobbyServer={`http://localhost:8000`}
+      gameComponents={importedGames}
+    />
   </div>
 );
 
