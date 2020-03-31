@@ -22,6 +22,14 @@ function Board(props) {
     );
   }
 
+  if (!playerID) {
+    return (
+      <div>
+        <h1>Unknown Player</h1>
+      </div>
+    );
+  }
+
   const currentPageIdx = G.playerIdsToPaperIdx[playerID];
   const currentPage = G.papers[currentPageIdx];
   const latestEnt = latestEntry(currentPage);
