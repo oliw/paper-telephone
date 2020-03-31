@@ -13,8 +13,8 @@ const importedGames = [
 const App = () => (
   <div>
     <Lobby
-      gameServer={`http://paper-gamer.herokuapp.com`}
-      lobbyServer={`http://paper-gamer.herokuapp.com`}
+      gameServer={`//games-server.oliverwilkie.com`}
+      lobbyServer={`//paper-gamer.oliverwilkie.com`}
       gameComponents={importedGames}
     />
   </div>
