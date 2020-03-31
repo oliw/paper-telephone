@@ -13,8 +13,8 @@ const importedGames = [
 const App = () => (
   <div>
     <Lobby
-      gameServer={`//games-server.oliverwilkie.com`}
-      lobbyServer={`//games-server.oliverwilkie.com`}
+      gameServer={`https://games-server.oliverwilkie.com`}
+      lobbyServer={`https://games-server.oliverwilkie.com`}
       gameComponents={importedGames}
     />
   </div>
