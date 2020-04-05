@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, css } from "aphrodite";
+import Button from "button";
 
 const styles = StyleSheet.create({
   container: {
@@ -77,12 +78,20 @@ function Drawer(props) {
       </div>
       <div className={css(styles.buttonsContainer)}>
         {!imageData && (
-          <button onClick={handleTakePicClick}>Take Pic of your drawing</button>
+          <Button type="primary" onClick={handleTakePicClick}>
+            Take picture
+          </Button>
         )}
         {imageData && (
-          <button onClick={() => setImageData(null)}>Take another Pic</button>
+          <Button type="primary" onClick={handleClick}>
+            Submit
+          </Button>
         )}
-        {imageData && <button onClick={handleClick}>Submit</button>}
+        {imageData && (
+          <Button onClick={() => setImageData(null)}>
+            Take a different picture
+          </Button>
+        )}
       </div>
     </div>
   );

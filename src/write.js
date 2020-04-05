@@ -43,7 +43,9 @@ function Writer(props) {
   return (
     <div className={css(styles.container)}>
       <p>{title}</p>
-      {previousDrawingUri && <img src={previousDrawingUri} alt="Foo" />}
+      {previousDrawingUri && (
+        <img src={previousDrawingUri} width="640" height="480" alt="Foo" />
+      )}
       <p>{prompt}</p>
       <input
         className={css(styles.input)}
