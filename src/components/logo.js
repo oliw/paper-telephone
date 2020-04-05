@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 export default function Logo() {
   return (
     <div>
-      <h1 className={css(styles.text)}>Paper Gamer!</h1>
+      <h1 className={css(styles.text)}>Paper Gamer</h1>
     </div>
   );
 }

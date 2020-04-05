@@ -2,6 +2,7 @@ import React from "react";
 import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite";
 import Card from "common/card";
+import Player from "components/player";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,43 +20,27 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center"
   },
-  header: {
-    width: "100%",
+  seatedPlayers: {
     display: "flex",
-    justifyContent: "center",
     alignItems: "center"
   },
-  headerLeft: {
-    flex: 1,
-    textAlign: "left"
+  seatedPlayersLabel: {
+    marginRight: "10px"
   },
-  headerMiddle: {
-    flex: 1,
-    textAlign: "center"
+  seatedPlayerIcon: {
+    marginRight: "10px"
   },
-  headerRight: {
-    flex: 1,
-    textAlign: "right",
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center"
+  game: {
+    borderRadius: "10px",
+    borderStyle: "solid",
+    borderColor: colors.blueLight,
+    borderWidth: "2px",
+    padding: "10px"
+  },
+  gameContainer: {
+    marginBottom: "10px"
   }
 });
-
-function Header({ playerName, onChangeNameClick }) {
-  const right = playerName ? `Playing as ${playerName}` : "";
-
-  return (
-    <div className={css(styles.header)}>
-      <div className={css(styles.headerLeft)}></div>
-      <div className={css(styles.headerMiddle)}>Game Lobby</div>
-      <div className={css(styles.headerRight)}>
-        {right}
-        {playerName && <button onClick={onChangeNameClick}>Change</button>}
-      </div>
-    </div>
-  );
-}
 
 function NameChooser({ onEnter }) {
   const [pendingPlayerName, setPlayerName] = React.useState("");
@@ -96,7 +81,7 @@ function ExistingGameChooser({
   handleRequestNewGame
 }) {
   const games = rooms.map(room => (
-    <div key={room.gameID}>
+    <div key={room.gameID} className={css(styles.gameContainer)}>
       <ExistingGame
         room={room}
         playerName={playerName}
@@ -108,12 +93,11 @@ function ExistingGameChooser({
   ));
   return (
     <div>
-      <p>Choose an existing game to play</p>
-      <p>There are {rooms.length} games running atm</p>
+      <p>Choose from {rooms.length} existing games</p>
       {games}
       <p>
-        Don't see a game to join?{" "}
-        <button onClick={handleRequestNewGame}>Host a new game!</button>
+        Or..Don't see a game to join?{" "}
+        <button onClick={handleRequestNewGame}>Host a new game</button>
       </p>
     </div>
   );
@@ -131,6 +115,7 @@ function ExistingGame({
   const playerSeat = players.find(p => p.name === playerName);
   const playerIsSeated = playerSeat != null;
   const freeSeat = players.find(p => !p.name);
+  const freeSeats = players.filter(p => !p.name);
   const freeSeatsAvailable = freeSeat != null;
   const gameIsFullySeated = !freeSeatsAvailable;
   const playerCanJoin = !playerIsSeated && freeSeatsAvailable;
@@ -153,14 +138,35 @@ function ExistingGame({
     handleLeaveRoom(gameName, gameID);
   };
 
+  const seatedPlayers = players
+    .map(p => p.name)
+    .filter(name => name != null)
+    .map(name => (
+      <div className={css(styles.seatedPlayerIcon)}>
+        <Player name={name} key={name} />
+      </div>
+    ));
+
+  const formattedGameName =
+    gameName === "paper-telephone" ? "Telephone" : "Unknown Game";
+
   return (
-    <div>
-      <p>
-        Game: {gameName} (id: {gameID})
-      </p>
-      <p>Players Seated: {playerNames}</p>
-      {playerCanEnter && <button onClick={startGame}>Enter</button>}
-      {playerCanJoin && <button onClick={joinGame}>Join</button>}
+    <div className={css(styles.game)}>
+      <p>{formattedGameName}</p>
+      <div className={css(styles.seatedPlayers)}>
+        <p className={css(styles.seatedPlayersLabel)}>Players:</p>
+        {seatedPlayers}
+      </div>
+      {freeSeatsAvailable && (
+        <p>Waiting for {freeSeats.length} more players to take a seat</p>
+      )}
+      {playerCanJoin && <button onClick={joinGame}>Take a Seat</button>}
+      {playerCanEnter && (
+        <div>
+          <p>Everyone is sat down!</p>
+          <button onClick={startGame}>Enter the game</button>
+        </div>
+      )}
       {playerCanLeave && <button onClick={leaveGame}>Leave</button>}
     </div>
   );
@@ -262,7 +268,7 @@ export default function Lobby(props) {
     <div className={css(styles.container)}>
       <div className={css(styles.mainContainer)}>
         <Card>
-          <p>Hi {playerName || ""}, Welcome to the Lobby !</p>
+          <p>Hi {playerName || ""}, Welcome to the Paper Gamer Lobby!</p>
           {!showNameChooser && (
             <button onClick={() => setShowNameChooser(true)}>
               Change Name
