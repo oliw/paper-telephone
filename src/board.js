@@ -93,9 +93,6 @@ function Board(props) {
       <div className={css(styles.innerContainer)}>
         <div className={css(styles.cardContainer)}>
           <Card>
-            <div className={css(styles.header)}>
-              <h1>Now Playing: Paper Telephone!</h1>
-            </div>
             <div className={css(styles.details)}>
               <p>
                 The current turn is: {ctx.turn}, which means its time to:{" "}
