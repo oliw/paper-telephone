@@ -11,10 +11,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: "4px",
     paddingBottom: "4px",
-    backgroundColor: colors.pinkVeryLight,
-    borderBottomWidth: "2px",
-    borderBottomColor: colors.blueLight,
-    borderBottomStyle: "solid"
+    backgroundColor: colors.pinkVeryLight
   }
 });
 

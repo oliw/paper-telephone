@@ -1,9 +1,10 @@
 import React from "react";
 import Drawer from "./draw";
 import Writer from "./write";
+import Card from "common/card";
 import { latestEntry } from "../model/paper";
 import { StyleSheet, css } from "aphrodite";
-import { colors, sizes } from "../styles";
+import { colors } from "../styles";
 
 const styles = StyleSheet.create({
   container: {
@@ -24,21 +25,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     marginTop: "35px"
-  },
-  card: {
-    width: sizes.cardWidth,
-    backgroundColor: "white",
-    padding: "25px",
-    borderWidth: "2px",
-    borderRadius: "25px",
-    borderColor: colors.blueLight,
-    borderStyle: "solid"
   }
 });
-
-function Card({ children }) {
-  return <div className={css(styles.card)}>{children}</div>;
-}
 
 function Board(props) {
   const { moves, _, G, ctx, playerID } = props;
