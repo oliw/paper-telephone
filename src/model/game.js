@@ -1,4 +1,4 @@
-import { Paper, paperHasCompletedEntry } from "./models/paper";
+import { Paper, paperHasCompletedEntry } from "./paper";
 
 // TURN
 function OnBegin(G, ctx) {

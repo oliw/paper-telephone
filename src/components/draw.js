@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, css } from "aphrodite";
-import Button from "button";
+import Button from "common/button";
 
 const styles = StyleSheet.create({
   container: {

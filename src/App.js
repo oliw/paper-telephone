@@ -1,8 +1,8 @@
 import React from "react";
-import Game from "game";
-import Board from "board";
-import LobbyRenderer from "LobbyRenderer";
-import Header from "header";
+import Game from "model/game";
+import Board from "components/board";
+import LobbyRenderer from "components/LobbyRenderer";
+import Header from "components/header";
 import { Lobby, Client } from "boardgame.io/react";
 import { StyleSheet, css } from "aphrodite";
 import { colors } from "./styles";

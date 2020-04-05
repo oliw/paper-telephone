@@ -1,9 +1,9 @@
 import React from "react";
 import Drawer from "./draw";
 import Writer from "./write";
-import { latestEntry } from "./models/paper";
+import { latestEntry } from "../model/paper";
 import { StyleSheet, css } from "aphrodite";
-import { colors, sizes } from "./styles";
+import { colors, sizes } from "../styles";
 
 const styles = StyleSheet.create({
   container: {

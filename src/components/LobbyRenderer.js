@@ -196,6 +196,9 @@ function RunningGameHeader({
   playerName,
   handleExitRoom
 }) {
+  if (!runningRoom) {
+    return <p>Please wait</p>;
+  }
   const gameName =
     runningRoom.gameName === "paper-telephone"
       ? "Paper Telephone"
