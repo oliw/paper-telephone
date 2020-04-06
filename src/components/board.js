@@ -2,6 +2,7 @@ import React from "react";
 import Drawer from "./draw";
 import Writer from "./write";
 import Card from "common/card";
+import Summary from "components/summary";
 import { latestEntry } from "../model/paper";
 import { StyleSheet, css } from "aphrodite";
 import { colors } from "../styles";
@@ -42,7 +43,11 @@ function Board(props) {
   if (ctx.gameover) {
     return (
       <div className={css(styles.container)}>
-        <h1>Game over!</h1>
+        <div className={css(styles.innerContainer)}>
+          <div className={css(styles.cardContainer)}>
+            <Summary game={G} />
+          </div>
+        </div>
       </div>
     );
   }

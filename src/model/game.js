@@ -71,7 +71,7 @@ export const Game = {
 
   setup: ctx => {
     const numPlayers = ctx.numPlayers;
-    const numberOfRounds = numPlayers * 2;
+    const numberOfRounds = numPlayers;
     const papers = Array(numPlayers);
     const playerIdsToPaperIdx = {};
     for (let i = 0; i < numPlayers; i++) {
