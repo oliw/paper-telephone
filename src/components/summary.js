@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "common/card";
 import { colors } from "styles";
+import { nameFromId } from "helpers/players";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
@@ -12,44 +13,57 @@ const styles = StyleSheet.create({
   }
 });
 
-function WrittenEntry({ entry, first }) {
+function WrittenEntry({ entry, first, gameMetadata }) {
   return (
     <div>
-      <p>
-        {first ? "First" : "Then"} {entry.author} wrote
-      </p>
+      {first && <p>First {nameFromId(entry.author, gameMetadata)} wrote</p>}
+      {!first && (
+        <p>
+          Which {nameFromId(entry.author, gameMetadata)} guessed was a drawing
+          of the phrase
+        </p>
+      )}
       <p>{entry.writing}</p>
     </div>
   );
 }
 
-function DrawnEntry({ entry, first }) {
+function DrawnEntry({ entry, gameMetadata }) {
   return (
     <div>
-      <p>Then {entry.author} drew</p>
+      <p>Which {nameFromId(entry.author, gameMetadata)} then drew as</p>
       <img src={entry.drawing} width="640" height="480" alt="Foo" />
     </div>
   );
 }
 
-function PaperSummary({ paper }) {
+function PaperSummary({ paper, gameMetadata }) {
   const { entries } = paper;
   const summaries = entries.map((entry, idx) => {
     if (idx % 2 === 0) {
-      return <WrittenEntry key={idx} entry={entry} first={idx == 0} />;
+      return (
+        <WrittenEntry
+          key={idx}
+          entry={entry}
+          first={idx === 0}
+          gameMetadata={gameMetadata}
+        />
+      );
     } else {
-      return <DrawnEntry key={idx} entry={entry} first={idx == 0} />;
+      return <DrawnEntry key={idx} entry={entry} gameMetadata={gameMetadata} />;
     }
   });
   return (
     <div>
-      <p>Heres what paper looked like</p>
+      <p>
+        Heres what {nameFromId(paper.player, gameMetadata)}'s paper looked like
+      </p>
       {summaries}
     </div>
   );
 }
 
-export default function Summary({ game }) {
+export default function Summary({ game, gameMetadata }) {
   const [currentPaperIdx, setCurrentPaperIdx] = React.useState(0);
   const paper = game.papers[currentPaperIdx];
   const handleNextClick = () => {
@@ -65,11 +79,15 @@ export default function Summary({ game }) {
       <Card>
         <p>Its the end of the game!</p>
         <p>Lets take a look at what everybody wrote and drew</p>
+        <p>
+          You're currently looking at {nameFromId(paper.player, gameMetadata)}'s
+          paper
+        </p>
         <button onClick={handleBackClick}>Back</button>
         <button onClick={handleNextClick}>Next Thread</button>
       </Card>
       <Card>
-        <PaperSummary paper={paper} />
+        <PaperSummary paper={paper} gameMetadata={gameMetadata} />
       </Card>
     </div>
   );

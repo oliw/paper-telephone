@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 function Board(props) {
-  const { moves, _, G, ctx, playerID } = props;
+  const { moves, _, G, ctx, playerID, gameMetadata } = props;
 
   const handleSubmitWriting = writing => {
     moves.SubmitWriting(writing);
@@ -45,7 +45,7 @@ function Board(props) {
       <div className={css(styles.container)}>
         <div className={css(styles.innerContainer)}>
           <div className={css(styles.cardContainer)}>
-            <Summary game={G} />
+            <Summary game={G} gameMetadata={gameMetadata} />
           </div>
         </div>
       </div>
