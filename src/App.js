@@ -1,11 +1,10 @@
 import React from "react";
-import Game from "model/game";
-import Board from "components/board";
-import LobbyRenderer from "components/LobbyRenderer";
+import { Game as TelephoneGame } from "model/telephone/game";
+import { Board as TelephoneBoard } from "components/telephone/board";
+import LobbyRenderer from "components/lobby/LobbyRenderer";
 import Header from "components/header";
-import { Lobby, Client } from "boardgame.io/react";
+import { Lobby } from "boardgame.io/react";
 import { StyleSheet, css } from "aphrodite";
-import { colors } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
@@ -24,26 +23,10 @@ const styles = StyleSheet.create({
 
 const importedGames = [
   {
-    game: Game,
-    board: Board
+    game: TelephoneGame,
+    board: TelephoneBoard
   }
 ];
-
-// let BoardGameIo = null;
-// if (process.env.NODE_ENV === "development") {
-//   BoardGameIo = Client({
-//     game: Game,
-//     board: Board
-//   });
-// } else {
-//   BoardGameIo = () => (
-//     <Lobby
-//       gameServer={`https://games-server.oliverwilkie.com`}
-//       lobbyServer={`https://games-server.oliverwilkie.com`}
-//       gameComponents={importedGames}
-//     />
-//   );
-// }
 
 function App() {
   return (
@@ -52,7 +35,6 @@ function App() {
         <Header />
       </div>
       <div className={css(styles.main)}>
-        {/* <BoardGameIo /> */}
         <Lobby
           gameServer={`https://games-server.oliverwilkie.com`}
           lobbyServer={`https://games-server.oliverwilkie.com`}
