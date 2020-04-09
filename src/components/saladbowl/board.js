@@ -1,6 +1,7 @@
 import React from "react";
 import Pickgroups from "./phases/pickgroups";
 import BuildBowl from "./phases/buildbowl";
+import DescribeThings from "./phases/describethings";
 
 export function Board(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
@@ -10,6 +11,8 @@ export function Board(props) {
     phase = <Pickgroups {...props} />;
   } else if (ctx.phase === "BuildBowl") {
     phase = <BuildBowl {...props} />;
+  } else if (ctx.phase === "DescribeThings") {
+    phase = <DescribeThings {...props} />;
   }
 
   return (

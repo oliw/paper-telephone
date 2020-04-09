@@ -6,7 +6,12 @@ export const Game = {
   setup: ctx => {
     return {
       countdownSeconds: 30,
-      groups: [],
+      groups: [
+        // {
+        //   score: 0,
+        //   players: []
+        // }
+      ],
       wordsInBowl: [],
       currentWord: null,
       wordsCollected: [],
@@ -21,12 +26,17 @@ export const Game = {
       start: true, // The first phase
       moves: {
         ChooseGroups: (G, _ctx, groups) => {
-          G.groups = groups;
+          G.groups = groups.map(group => {
+            return {
+              score: 0,
+              players: group
+            };
+          });
         }
       },
       endIf: (G, ctx) => {
         // Everyone is in a group
-        return G.groups.flat().length === ctx.numPlayers;
+        return G.groups.map(g => g.players).flat().length === ctx.numPlayers;
       },
       next: "BuildBowl"
     },
@@ -59,7 +69,7 @@ export const Game = {
       },
       endIf: (G, ctx) => {
         // Phase is over once all the words are gone
-        return G.wordsInBowl === [] && G.passedWord === null;
+        return G.wordsInBowl === [] && G.passedWord == null;
       },
       onEnd: (G, _ctx) => {
         // Return all the words to the bowl
