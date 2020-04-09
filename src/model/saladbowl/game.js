@@ -1,5 +1,3 @@
-import { Random } from "boardgame.io/core";
-
 const WORDS_PER_PLAYER = 3;
 
 export const Game = {
@@ -13,12 +11,14 @@ export const Game = {
       currentWord: null,
       wordsCollected: [],
       passedWord: null,
-      countdownStartedAt: null
+      countdownStartedAt: null,
+      wordsWrittenPerPlayer: WORDS_PER_PLAYER
     };
   },
 
   phases: {
     PickGroups: {
+      start: true, // The first phase
       moves: {
         ChooseGroups: (G, _ctx, groups) => {
           G.groups = groups;
@@ -27,19 +27,20 @@ export const Game = {
       endIf: (G, ctx) => {
         // Everyone is in a group
         return G.groups.flat().length === ctx.numPlayers;
-      }
+      },
+      next: "BuildBowl"
     },
     BuildBowl: {
       turn: {
         activePlayers: {
           all: "WriteThings",
-          moveLimit: WORDS_PER_PLAYER
+          moveLimit: 1
         },
         stages: {
           WriteThings: {
             moves: {
-              AddWord: (G, ctx, word) => {
-                G.wordsInBowl = [...G.wordsInBowl, word];
+              AddWords: (G, ctx, words) => {
+                G.wordsInBowl = [...G.wordsInBowl, ...words];
               }
             }
           }
@@ -48,12 +49,13 @@ export const Game = {
       endIf: (G, ctx) => {
         // Phase is done if there are enough words in the bowl
         return G.wordsInBowl.length === ctx.numPlayers * WORDS_PER_PLAYER;
-      }
+      },
+      next: "DescribeThings"
     },
     DescribeThings: {
-      onBegin: (G, _ctx) => {
+      onBegin: (G, ctx) => {
         // Shuffle the words
-        Random.Shuffle(G, "wordsInBowl");
+        G.wordsInBowl = ctx.random.Shuffle(G.wordsInBowl);
       },
       endIf: (G, ctx) => {
         // Phase is over once all the words are gone

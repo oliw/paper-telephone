@@ -2,10 +2,10 @@ import React from "react";
 import Drawer from "./draw";
 import Writer from "./write";
 import Card from "common/card";
-import Summary from "components/summary";
-import { latestEntry } from "../model/paper";
+import Summary from "components/telephone/summary";
+import { latestEntry } from "../../model/telephone/paper";
 import { StyleSheet, css } from "aphrodite";
-import { colors } from "../styles";
+import { colors } from "../../styles";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   }
 });
 
-function Board(props) {
+export function Board(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
 
   const handleSubmitWriting = writing => {
