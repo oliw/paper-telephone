@@ -62,25 +62,36 @@ export const Game = {
       next: "DescribeThings",
     },
     DescribeThings: {
-      onBegin: (G, ctx) => {
-        // Shuffle the words
-        G.wordsInBowl = ctx.random.Shuffle(G.wordsInBowl);
-      },
       endIf: (G, ctx) => {
         // Phase is over once all the words are gone
-        return G.wordsInBowl === [] && G.currentWord == null;
+        return G.wordsInBowl.length === 0 && G.currentWord == null;
       },
       onEnd: (G, _ctx) => {
         // Return all the words to the bowl
         const wordsToReturn = G.wordsCollected;
         G.wordsInBowl = wordsToReturn;
         G.wordsCollected = [];
+        // Make sure the clock is reset
+        G.countdownStartedAt = null;
       },
       next: "DescribeThingsWithOneWord",
       turn: {
         onBegin: (G, ctx) => {
+          // Shuffle the words
+          G.wordsInBowl = ctx.random.Shuffle(G.wordsInBowl);
           // Make sure the clock is reset
           G.countdownStartedAt = null;
+        },
+        onEnd: (G, ctx) => {
+          // Return to bowl
+          if (G.currentWord) {
+            G.wordsInBowl.push(G.currentWord);
+            G.currentWord = null;
+          }
+        },
+        endIf: (G, ctx) => {
+          // Phase is over once all the words are gone
+          return G.wordsInBowl.length === 0 && G.currentWord == null;
         },
       },
       moves: {
@@ -97,6 +108,9 @@ export const Game = {
           G.countdownStartedAt = currentTime;
         },
         ScoreWord: (G, ctx) => {
+          if (!G.currentWord) {
+            return;
+          }
           // Get group for current player
           const currentPlayer = ctx.currentPlayer;
           const currentGroup = G.groups.find((group) =>
@@ -108,14 +122,19 @@ export const Game = {
           const currentWord = G.currentWord;
           G.wordsCollected.push(currentWord);
           G.currentWord = null;
-          // Draw a word
-          const words = G.wordsInBowl;
-          G.currentWord = words.pop();
-          G.wordsInBowl = words;
+          if (G.wordsInBowl === []) {
+            // Stop the clock
+            G.countdownStartedAt = null;
+          } else {
+            // Draw a word
+            const words = G.wordsInBowl;
+            G.currentWord = words.pop();
+            G.wordsInBowl = words;
+          }
         },
       },
     },
-    // DescribeThingsWithOneWord: {},
+    DescribeThingsWithOneWord: {},
     // ActThings: {}
   },
 };

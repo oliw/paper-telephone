@@ -5,8 +5,7 @@ export function Spectator(props) {
 
   return (
     <div>
-      <p>I'm the pick groups phase - Spectator</p>
-      <p>Sit back and relax!</p>
+      <p>Nothing for you to do, so sit back and relax!</p>
     </div>
   );
 }

@@ -1,5 +1,15 @@
 import React from "react";
 import shuffle from "lodash/shuffle";
+import Button from "common/button";
+import { StyleSheet, css } from "aphrodite";
+import { colors, sizes } from "styles";
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
 export function Picker(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
@@ -29,16 +39,20 @@ export function Picker(props) {
   };
 
   return (
-    <div>
-      <p>I'm the pick groups phase - picker</p>
-      <p>Ok! Time to decide who goes in what group</p>
-      <button onClick={handleShuffleClick}>
+    <div className={css(styles.container)}>
+      <p>Ok! It's your turn to decide who goes in what group</p>
+      <Button onClick={handleShuffleClick}>
         Randomize the {numGroups} groups!
-      </button>
-      <p>
-        The proposed groups are #{groups.map(g => g.join(",")).join(" and ")}
-      </p>
-      <button onClick={handleClick}>Choose these groups</button>
+      </Button>
+      {groups.length > 0 && (
+        <>
+          <p>
+            The proposed groups are #
+            {groups.map((g) => g.join(",")).join(" and ")}
+          </p>
+          <Button onClick={handleClick}>Choose these groups</Button>
+        </>
+      )}
     </div>
   );
 }

@@ -6,7 +6,6 @@ export function BuildBowl(props) {
 
   return (
     <div>
-      <p>I'm the build bowl phase</p>
       <Writethings {...props} />
     </div>
   );

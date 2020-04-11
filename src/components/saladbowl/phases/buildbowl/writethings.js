@@ -1,4 +1,15 @@
 import React from "react";
+import TextInput from "common/textinput";
+import { StyleSheet, css } from "aphrodite";
+import { colors, sizes } from "styles";
+import Button from "common/button";
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
 export function Writethings(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
@@ -6,8 +17,7 @@ export function Writethings(props) {
   const numWords = G.wordsWrittenPerPlayer;
   const [words, setWords] = React.useState(Array(numWords).fill(null));
 
-  const handleChange = (event, i) => {
-    const value = event.target.value;
+  const handleChange = (value, i) => {
     const newWords = [...words];
     newWords[i] = value;
     setWords(newWords);
@@ -15,12 +25,16 @@ export function Writethings(props) {
 
   const inputs = words.map((word, i) => {
     return (
-      <input key={i} onChange={e => handleChange(e, i)} value={word || ""} />
+      <TextInput
+        key={i}
+        value={word || ""}
+        onChange={(word) => handleChange(word, i)}
+      />
     );
   });
 
   const handleClick = () => {
-    if (words.some(w => w == null || w.length === 0)) {
+    if (words.some((w) => w == null || w.length === 0)) {
       return;
     }
     moves.AddWords(words);
@@ -33,12 +47,14 @@ export function Writethings(props) {
   }
 
   return (
-    <div>
-      <p>You are player {playerID}</p>
-      <p>Decide on the video call what theme to have. e.g. The letter P</p>
-      <p>Please choose {numWords} words</p>
+    <div className={css(styles.container)}>
+      <p>Choose {numWords} words to go in the bowl</p>
+      <p>
+        Decide on the video call if there should be a theme to the words (e.g.
+        same letter)
+      </p>
       {inputs}
-      <button onClick={handleClick}>Done</button>
+      <Button onClick={handleClick}>Add Words To Bowl</Button>
     </div>
   );
 }

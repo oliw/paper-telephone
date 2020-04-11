@@ -9,15 +9,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     borderColor: colors.blueLight,
     borderWidth: "2px",
-    outline: "none"
+    outline: "none",
   },
   primary: {
     backgroundColor: colors.blueLight,
-    color: colors.pinkVeryLight
+    color: colors.pinkVeryLight,
   },
   secondary: {
-    color: colors.blueLight
-  }
+    color: colors.blueLight,
+  },
 });
 
 export default function Button({ onClick, children, type }) {

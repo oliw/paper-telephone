@@ -2,7 +2,7 @@ import React from "react";
 import Player from "components/player";
 
 import { colors } from "styles";
-import { StyleSheet, css } from "aphrodite";
+import { StyleSheet, css } from "aphrodite/no-important";
 
 const styles = StyleSheet.create({
   leader: {
@@ -18,14 +18,33 @@ const styles = StyleSheet.create({
   group: {
     marginRight: "30px",
     display: "flex",
+    borderRadius: "10px",
+    border: "2px solid",
+    borderColor: colors.blueLight,
+  },
+  row: {
+    display: "flex",
+    flexWrap: "nowrap",
+    justifyContent: "space-between",
+    alignContent: "baseline",
+  },
+  status: {
+    width: "100%",
+    textAlign: "center",
   },
   container: {
     display: "flex",
-    justifyContent: "space-between",
+    flexDirection: "column",
   },
   activePlayer: {
     borderRadius: "3px",
-    border: "2px solid #73AD21",
+    border: "2px solid",
+    borderColor: colors.blueLight,
+  },
+  iconWithText: {
+    display: "flex",
+    flexWrap: "nowrap",
+    alignItems: "center",
   },
 });
 
@@ -61,16 +80,43 @@ function Groups(props) {
   ));
 
   return (
-    <div className={css(styles.groups)}>
-      <p>Groups:</p>
-      {groups.length > 0 && groups}
-      {groups.length === 0 && <p>Not chosen yet</p>}
+    <div className={css(styles.groups)}>{groups.length > 0 && groups}</div>
+  );
+}
+
+function IconWithText({ icon, text }) {
+  return (
+    <div className={css(styles.iconWithText)}>
+      <span>{icon}</span>:<span>{text}</span>
     </div>
   );
 }
 
-function Timer({ group, G, ctx }) {
+function buildStatus(G, ctx, gameMetadata) {
+  let status = "Unknown";
+  let currentPlayer = ctx.currentPlayer;
+
+  if (ctx.phase === "PickGroups") {
+    status = `Time for player ${currentPlayer}'s turn to choose groups`;
+  }
+
+  if (ctx.phase === "BuildBowl") {
+    status = "Time for everyone fill up the bowl with words";
+  }
+
+  if (ctx.phase === "DescribeThings") {
+    status = `Time for player ${currentPlayer} to describe words to the rest of the group`;
+  }
+
+  return status;
+}
+
+export function Status(props) {
+  const { moves, events, G, ctx, playerID, gameMetadata } = props;
+
   const [secondsRemaining, setSecondsRemaining] = React.useState(null);
+
+  const status = buildStatus(G, ctx, gameMetadata);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -84,38 +130,28 @@ function Timer({ group, G, ctx }) {
           const millisRemaining = countdownEndsAt - currentTime;
           setSecondsRemaining(Math.floor(millisRemaining / 1000));
         }
+      } else {
+        setSecondsRemaining(0);
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [G.countdownStartedAt, G.countdownSeconds]);
 
-  return (
-    <div>
-      <p>Timer: {secondsRemaining || "N/A"}</p>
-    </div>
-  );
-}
-
-function BowlSummary(props) {
-  const { moves, events, G, ctx, playerID, gameMetadata } = props;
-
-  return (
-    <div>
-      <p>Words left in bowl: {G.wordsInBowl.length}</p>
-    </div>
-  );
-}
-
-export function Status(props) {
-  const { moves, events, G, ctx, playerID, gameMetadata } = props;
+  let wordsInBowl = G.wordsInBowl.length;
+  if (G.currentWord) {
+    wordsInBowl += 1;
+  }
 
   return (
     <div className={css(styles.container)}>
-      <Player name={playerID} />
-      <p>Phase: {ctx.phase}</p>
+      <div className={css(styles.row)}>
+        <IconWithText icon="👨‍💻" text={playerID} />
+        <IconWithText icon="📖" text={ctx.phase} />
+        <IconWithText icon="🥣" text={wordsInBowl} />
+        <IconWithText icon="⏲" text={secondsRemaining || "N/A"} />
+      </div>
       <Groups {...props} />
-      <BowlSummary {...props} />
-      <Timer {...props} />
+      <div className={css(styles.status)}>{status}</div>
     </div>
   );
 }

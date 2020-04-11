@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "common/button";
 
 export function Describe(props) {
   const { moves, events, G, ctx, playerID, gameMetadata } = props;
@@ -42,19 +43,18 @@ export function Describe(props) {
     <div>
       <p>Its your turn to describe words to the rest of your group!</p>
       {readyToStart && (
-        <button onClick={handleClockClick}>Start the Clock</button>
+        <Button onClick={handleClockClick}>Start the Clock</Button>
       )}
       {inProgress && (
         <>
-          <p>Seconds remaining: #{secondsRemaining}</p>
           <p>Describe: #{G.currentWord}</p>
-          <button onClick={handleScore}>Score!</button>
+          <Button onClick={handleScore}>Score!</Button>
         </>
       )}
       {timesUp && (
         <>
           <p>Times up!</p>
-          <button onClick={endTurn}>End Turn</button>
+          <Button onClick={endTurn}>End Turn</Button>
         </>
       )}
     </div>

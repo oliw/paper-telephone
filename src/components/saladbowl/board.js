@@ -10,12 +10,16 @@ export function Board(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
 
   let phase = null;
+  let phaseTitle = null;
   if (ctx.phase === "PickGroups") {
     phase = <Pickgroups {...props} />;
+    phaseTitle = "Pick Groups";
   } else if (ctx.phase === "BuildBowl") {
     phase = <BuildBowl {...props} />;
+    phaseTitle = "Fill The Bowl";
   } else if (ctx.phase === "DescribeThings") {
     phase = <DescribeThings {...props} />;
+    phaseTitle = "Describe The Word";
   }
 
   return (
@@ -23,7 +27,7 @@ export function Board(props) {
       <Card>
         <Status {...props} />
       </Card>
-      <Card>{phase}</Card>
+      <Card title={phaseTitle}>{phase}</Card>
     </Game>
   );
 }
