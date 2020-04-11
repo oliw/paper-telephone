@@ -4,6 +4,7 @@ import { StyleSheet, css } from "aphrodite";
 import Card from "common/card";
 import Player from "components/player";
 import Game from "common/game";
+import Button from "common/button";
 
 const styles = StyleSheet.create({
   container: {
@@ -65,9 +66,9 @@ function NameChooser({ onEnter }) {
         onChange={handleInputChange}
       />
       <span className="buttons">
-        <button className="buttons" onClick={onClickEnter}>
+        <Button className="buttons" onClick={onClickEnter}>
           Enter
-        </button>
+        </Button>
       </span>
     </div>
   );
@@ -97,8 +98,7 @@ function ExistingGameChooser({
       <p>Choose from {rooms.length} existing games</p>
       {games}
       <p>
-        Or..Don't see a game to join?{" "}
-        <button onClick={handleRequestNewGame}>Host a new game</button>
+        Or... <Button onClick={handleRequestNewGame}>Host a new game</Button>
       </p>
     </div>
   );
@@ -143,13 +143,13 @@ function ExistingGame({
     .map((p) => p.name)
     .filter((name) => name != null)
     .map((name) => (
-      <div className={css(styles.seatedPlayerIcon)}>
+      <div id={name} className={css(styles.seatedPlayerIcon)}>
         <Player name={name} key={name} />
       </div>
     ));
 
   const formattedGameName =
-    gameName === "paper-telephone" ? "Telephone" : "Unknown Game";
+    gameName === "paper-telephone" ? "Telephone" : gameName;
 
   return (
     <div className={css(styles.game)}>
@@ -161,14 +161,14 @@ function ExistingGame({
       {freeSeatsAvailable && (
         <p>Waiting for {freeSeats.length} more players to take a seat</p>
       )}
-      {playerCanJoin && <button onClick={joinGame}>Take a Seat</button>}
+      {playerCanJoin && <Button onClick={joinGame}>Take a Seat</Button>}
       {playerCanEnter && (
         <div>
           <p>Everyone is sat down!</p>
-          <button onClick={startGame}>Enter the game</button>
+          <Button onClick={startGame}>Enter the game</Button>
         </div>
       )}
-      {playerCanLeave && <button onClick={leaveGame}>Leave</button>}
+      {playerCanLeave && <Button onClick={leaveGame}>Leave</Button>}
     </div>
   );
 }
@@ -186,6 +186,7 @@ function NewGameCreator({ games, createGame, onDismiss }) {
   ));
 
   const onClick = () => {
+    debugger;
     createGame(selectedGameName, numPlayers);
     onDismiss();
   };
@@ -221,17 +222,15 @@ function NewGameCreator({ games, createGame, onDismiss }) {
 
   return (
     <div>
-      <p>Lets create a new game</p>
       <p>Which game do you want to play?</p>
       <select value={selectedGameName} onChange={onGameSelected}>
-        <option value="">Select Game</option>
         {gameOptions}
       </select>
       <p>And how many players?</p>
       <select value={numPlayers} onChange={onNumPlayersSelected}>
         {createNumPlayersRange(game).map(createNumPlayersOption)}
       </select>
-      <button onClick={onClick}>Create</button>
+      <Button onClick={onClick}>Create</Button>
     </div>
   );
 }
@@ -258,34 +257,40 @@ export default function Lobby(props) {
     playerName == null
   );
 
-  const [showNewGameForm, setShowNewGameForm] = React.useState(false);
+  const [showNewGameForm, setShowNewGameForm] = React.useState(null);
 
   const handleNameChosen = (name) => {
     setShowNameChooser(false);
     handleEnterLobby(name);
   };
 
+  const nameChosen = playerName !== "Visitor";
+
   return (
     <Game>
-      <Card>
+      <Card title="Welcome">
         <p>Hi {playerName || ""}, Welcome to the Paper Gamer Lobby!</p>
         {!showNameChooser && (
-          <button onClick={() => setShowNameChooser(true)}>Change Name</button>
+          <Button onClick={() => setShowNameChooser(true)}>
+            {nameChosen ? "Change" : "Choose"} Name
+          </Button>
         )}
         {showNameChooser && <NameChooser onEnter={handleNameChosen} />}
       </Card>
-      <Card>
-        <ExistingGameChooser
-          rooms={rooms}
-          playerName={playerName}
-          handleJoinRoom={handleJoinRoom}
-          handleLeaveRoom={handleLeaveRoom}
-          handleStartGame={handleStartGame}
-          handleRequestNewGame={() => setShowNewGameForm(true)}
-        />
-      </Card>
-      {showNewGameForm && (
-        <Card>
+      {rooms.length > 0 && (
+        <Card title="Join a Game">
+          <ExistingGameChooser
+            rooms={rooms}
+            playerName={playerName}
+            handleJoinRoom={handleJoinRoom}
+            handleLeaveRoom={handleLeaveRoom}
+            handleStartGame={handleStartGame}
+            handleRequestNewGame={() => setShowNewGameForm(true)}
+          />
+        </Card>
+      )}
+      {(showNewGameForm || rooms.length === 0) && (
+        <Card title="Create a new Game">
           <NewGameCreator
             games={gameComponents}
             createGame={handleCreateRoom}
