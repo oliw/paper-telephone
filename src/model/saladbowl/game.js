@@ -2,6 +2,8 @@ const WORDS_PER_PLAYER = 3;
 
 export const Game = {
   name: "saladbowl",
+  minPlayers: 4,
+  maxPlayers: 20,
 
   setup: (ctx) => {
     return {

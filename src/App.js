@@ -25,48 +25,52 @@ const styles = StyleSheet.create({
   },
 });
 
+// const SaladbowlClient = Client({
+//   game: SaladbowlGame,
+//   board: SaladbowlBoard,
+//   multiplayer: Local(),
+//   numPlayers: 4,
+// });
+
+// const App = () => (
+//   <div>
+//     <SaladbowlClient playerID="0" />
+//     <hr />
+//     <SaladbowlClient playerID="1" />
+//     <hr />
+//     <SaladbowlClient playerID="2" />
+//     <hr />
+//     <SaladbowlClient playerID="3" />
+//   </div>
+// );
+
 const importedGames = [
   {
     game: TelephoneGame,
     board: TelephoneBoard,
   },
+  {
+    game: SaladbowlGame,
+    board: SaladbowlBoard,
+  },
 ];
 
-// function App() {
-//   return (
-//     <div className={css(styles.container)}>
-//       <div className={css(styles.header)}>
-//         <Header />
-//       </div>
-//       <div className={css(styles.main)}>
-//         <Lobby
-//           gameServer={`https://games-server.oliverwilkie.com`}
-//           lobbyServer={`https://games-server.oliverwilkie.com`}
-//           gameComponents={importedGames}
-//           renderer={LobbyRenderer}
-//         />
-//       </div>
-//     </div>
-//   );
-// }
-
-const SaladbowlClient = Client({
-  game: SaladbowlGame,
-  board: SaladbowlBoard,
-  multiplayer: Local(),
-  numPlayers: 4,
-});
-
-const App = () => (
-  <div>
-    <SaladbowlClient playerID="0" />
-    <hr />
-    <SaladbowlClient playerID="1" />
-    <hr />
-    <SaladbowlClient playerID="2" />
-    <hr />
-    <SaladbowlClient playerID="3" />
-  </div>
-);
+function App() {
+  return (
+    <div className={css(styles.container)}>
+      <div className={css(styles.header)}>
+        <Header />
+      </div>
+      <div className={css(styles.main)}>
+        <Lobby
+          gameServer={`https://games-server.oliverwilkie.com`}
+          lobbyServer={`https://games-server.oliverwilkie.com`}
+          gameComponents={importedGames}
+          renderer={LobbyRenderer}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default App;

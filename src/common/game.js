@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     padding: "3px",
+    minHeight: "100%",
   },
   game: {
     maxWidth: sizes.cardWidth,
