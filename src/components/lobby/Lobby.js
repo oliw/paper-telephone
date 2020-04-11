@@ -186,7 +186,6 @@ function NewGameCreator({ games, createGame, onDismiss }) {
   ));
 
   const onClick = () => {
-    debugger;
     createGame(selectedGameName, numPlayers);
     onDismiss();
   };

@@ -1,7 +1,8 @@
 // src/server.js
 const Server = require("boardgame.io/server").Server;
-const Game = require("./model/telephone/game").Game;
-const server = Server({ games: [Game] });
+const TelephoneGame = require("./model/telephone/game").Game;
+const SaladbowlGame = require("./model/saladbowl/game").Game;
+const server = Server({ games: [TelephoneGame, SaladbowlGame] });
 
 const port = process.env.PORT || 8000;
 
