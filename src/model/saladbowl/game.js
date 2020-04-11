@@ -76,7 +76,7 @@ export const Game = {
         // Make sure the clock is reset
         G.countdownStartedAt = null;
       },
-      next: "DescribeThingsWithOneWord",
+      // next: "DescribeThingsWithOneWord",
       turn: {
         onBegin: (G, ctx) => {
           // Shuffle the words
@@ -136,8 +136,6 @@ export const Game = {
         },
       },
     },
-    DescribeThingsWithOneWord: {},
-    // ActThings: {}
   },
 };
 

@@ -175,7 +175,7 @@ function ExistingGame({
 
 function NewGameCreator({ games, createGame, onDismiss }) {
   const [game, setGame] = React.useState(games[0]);
-  const [numPlayers, setNumPlayers] = React.useState(2);
+  const [numPlayers, setNumPlayers] = React.useState(games[0].game.minPlayers);
 
   const selectedGameName = game ? game.game.name : "--";
 
@@ -186,6 +186,7 @@ function NewGameCreator({ games, createGame, onDismiss }) {
   ));
 
   const onClick = () => {
+    console.log(selectedGameName);
     createGame(selectedGameName, numPlayers);
     onDismiss();
   };
@@ -198,6 +199,12 @@ function NewGameCreator({ games, createGame, onDismiss }) {
     }
     const matchingGame = games.find((g) => g.game.name === name);
     setGame(matchingGame);
+    if (numPlayers < matchingGame.game.minPlayers) {
+      setNumPlayers(matchingGame.game.minPlayers);
+    }
+    if (numPlayers > matchingGame.game.maxPlayers) {
+      setNumPlayers(matchingGame.game.minPlayers);
+    }
   };
 
   const onNumPlayersSelected = (event) => {
