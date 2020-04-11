@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
 // );
 
 const importedGames = [
-  {
-    game: TelephoneGame,
-    board: TelephoneBoard,
-  },
+  // {
+  //   game: TelephoneGame,
+  //   board: TelephoneBoard,
+  // },
   {
     game: SaladbowlGame,
     board: SaladbowlBoard,
