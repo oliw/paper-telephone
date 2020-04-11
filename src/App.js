@@ -16,57 +16,57 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   header: {},
   main: {
     flexGrow: 1,
-    display: "relative"
-  }
+    display: "relative",
+  },
 });
 
 const importedGames = [
   {
     game: TelephoneGame,
-    board: TelephoneBoard
-  }
+    board: TelephoneBoard,
+  },
 ];
 
-function App() {
-  return (
-    <div className={css(styles.container)}>
-      <div className={css(styles.header)}>
-        <Header />
-      </div>
-      <div className={css(styles.main)}>
-        <Lobby
-          gameServer={`https://games-server.oliverwilkie.com`}
-          lobbyServer={`https://games-server.oliverwilkie.com`}
-          gameComponents={importedGames}
-          renderer={LobbyRenderer}
-        />
-      </div>
-    </div>
-  );
-}
+// function App() {
+//   return (
+//     <div className={css(styles.container)}>
+//       <div className={css(styles.header)}>
+//         <Header />
+//       </div>
+//       <div className={css(styles.main)}>
+//         <Lobby
+//           gameServer={`https://games-server.oliverwilkie.com`}
+//           lobbyServer={`https://games-server.oliverwilkie.com`}
+//           gameComponents={importedGames}
+//           renderer={LobbyRenderer}
+//         />
+//       </div>
+//     </div>
+//   );
+// }
 
-// const SaladbowlClient = Client({
-//   game: SaladbowlGame,
-//   board: SaladbowlBoard,
-//   multiplayer: Local(),
-//   numPlayers: 4
-// });
+const SaladbowlClient = Client({
+  game: SaladbowlGame,
+  board: SaladbowlBoard,
+  multiplayer: Local(),
+  numPlayers: 4,
+});
 
-// const App = () => (
-//   <div>
-//     <SaladbowlClient playerID="0" />
-//     <hr />
-//     <SaladbowlClient playerID="1" />
-//     <hr />
-//     <SaladbowlClient playerID="2" />
-//     <hr />
-//     <SaladbowlClient playerID="3" />
-//   </div>
-// );
+const App = () => (
+  <div>
+    <SaladbowlClient playerID="0" />
+    <hr />
+    <SaladbowlClient playerID="1" />
+    <hr />
+    <SaladbowlClient playerID="2" />
+    <hr />
+    <SaladbowlClient playerID="3" />
+  </div>
+);
 
 export default App;

@@ -2,6 +2,9 @@ import React from "react";
 import Pickgroups from "./phases/pickgroups";
 import BuildBowl from "./phases/buildbowl";
 import DescribeThings from "./phases/describethings";
+import Status from "./status";
+import Game from "common/game";
+import Card from "common/card";
 
 export function Board(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
@@ -16,11 +19,12 @@ export function Board(props) {
   }
 
   return (
-    <div>
-      <p>Hi Player {playerID} Lets play salad bowl!</p>
-      <p>We're now in the phase {ctx.phase}</p>
-      {phase}
-    </div>
+    <Game>
+      <Card>
+        <Status {...props} />
+      </Card>
+      <Card>{phase}</Card>
+    </Game>
   );
 }
 

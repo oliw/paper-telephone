@@ -29,12 +29,6 @@ export function Describe(props) {
   const handleScore = () => {
     moves.ScoreWord();
   };
-  const handlePass = () => {
-    moves.ScoreSkippedWord();
-  };
-  const handlePassScore = () => {
-    moves.SkipWord();
-  };
 
   const endTurn = () => {
     events.endTurn();
@@ -55,10 +49,6 @@ export function Describe(props) {
           <p>Seconds remaining: #{secondsRemaining}</p>
           <p>Describe: #{G.currentWord}</p>
           <button onClick={handleScore}>Score!</button>
-          <button onClick={handlePass}>Pass</button>
-
-          <p>Skipped word: {G.passedWord}</p>
-          <button onClick={handlePassScore}>Score the skipped word!</button>
         </>
       )}
       {timesUp && (

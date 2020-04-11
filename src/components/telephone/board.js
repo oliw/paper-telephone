@@ -15,28 +15,28 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blueLight,
     display: "flex",
     justifyContent: "center",
-    paddingTop: "15px"
+    paddingTop: "15px",
   },
   innerContainer: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   main: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   cardContainer: {
-    marginTop: "35px"
-  }
+    marginTop: "35px",
+  },
 });
 
 export function Board(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
 
-  const handleSubmitWriting = writing => {
+  const handleSubmitWriting = (writing) => {
     moves.SubmitWriting(writing);
   };
 
-  const handleSubmitDrawing = drawingUri => {
+  const handleSubmitDrawing = (drawingUri) => {
     moves.SubmitDrawing(drawingUri);
   };
 
