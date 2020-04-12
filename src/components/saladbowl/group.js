@@ -6,11 +6,23 @@ import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
+    alignItems: "center",
     backgroundColor: colors.pinkVeryLight,
+    padding: "3px",
+    borderRadius: "10px",
+    border: "2px solid",
+    borderColor: colors.blueLight,
+  },
+  header: {
+    width: "100%",
+    textAlign: "center",
+  },
+  footer: {
+    width: "100%",
+    textAlign: "center",
   },
   members: {
     display: "flex",
@@ -42,7 +54,6 @@ function Group({ group, G, ctx, gameMetadata }) {
 
   return (
     <div className={css(styles.container)}>
-      <Text>Group {group.name}</Text>
       <div className={css(styles.members)}>
         {isGroupsTurn && (
           <>
@@ -53,7 +64,9 @@ function Group({ group, G, ctx, gameMetadata }) {
         )}
         {!isGroupsTurn && teamMembers}
       </div>
-      <Text>Score: {group.score}</Text>
+      <div className={css(styles.footer)}>
+        <Text>Score: {group.score}</Text>
+      </div>
     </div>
   );
 }

@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   groups: {
+    marginTop: "5px",
+    marginBottom: "5px",
+    marginRight: "10px",
     display: "flex",
+    justifyContent: "center",
   },
   group: {
     marginRight: "30px",
-    display: "flex",
-    borderRadius: "10px",
-    border: "2px solid",
-    borderColor: colors.blueLight,
   },
   row: {
     display: "flex",
@@ -49,22 +49,13 @@ const styles = StyleSheet.create({
   },
 });
 
-function GroupMember({ player, ctx }) {
-  const activePlayer =
-    (ctx.activePlayers && ctx.activePlayers[player]) ||
-    ctx.currentPlayer === player;
-  return (
-    <div className={css(activePlayer && styles.activePlayer)}>
-      <Player name={player} />
-    </div>
-  );
-}
-
 function Groups(props) {
   const { moves, events, G, ctx, playerID, gameMetadata } = props;
 
   const groups = G.groups.map((group) => (
-    <Group group={group} G={G} ctx={ctx} gameMetadata={gameMetadata} />
+    <div className={css(styles.group)}>
+      <Group group={group} G={G} ctx={ctx} gameMetadata={gameMetadata} />
+    </div>
   ));
 
   return (
@@ -131,8 +122,6 @@ export function Status(props) {
   return (
     <div className={css(styles.container)}>
       <div className={css(styles.row)}>
-        <IconWithText icon="👨‍💻" text={playerID} />
-        <IconWithText icon="📖" text={ctx.phase} />
         <IconWithText icon="🥣" text={wordsInBowl} />
         <IconWithText icon="⏲" text={secondsRemaining || "N/A"} />
       </div>
