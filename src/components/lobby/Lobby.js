@@ -5,6 +5,7 @@ import Card from "common/card";
 import Player from "components/player";
 import Game from "common/game";
 import Button from "common/button";
+import TextInput from "common/textinput";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,6 +33,10 @@ const styles = StyleSheet.create({
   seatedPlayerIcon: {
     marginRight: "10px",
   },
+  nameChooserContainer: {
+    display: "flex",
+    alignItems: "center",
+  },
   game: {
     borderRadius: "10px",
     borderStyle: "solid",
@@ -47,10 +52,6 @@ const styles = StyleSheet.create({
 function NameChooser({ onEnter }) {
   const [pendingPlayerName, setPlayerName] = React.useState("");
 
-  const handleInputChange = (event) => {
-    setPlayerName(event.target.value);
-  };
-
   const onClickEnter = () => {
     if (pendingPlayerName === "") return;
     setPlayerName("");
@@ -58,18 +59,15 @@ function NameChooser({ onEnter }) {
   };
 
   return (
-    <div>
-      <p>Choose a player name:</p>
-      <input
-        type="text"
+    <div className={css(styles.nameChooserContainer)}>
+      <TextInput
+        placeholder="Choose a name"
         value={pendingPlayerName}
-        onChange={handleInputChange}
+        onChange={setPlayerName}
       />
-      <span className="buttons">
-        <Button className="buttons" onClick={onClickEnter}>
-          Enter
-        </Button>
-      </span>
+      <Button className="buttons" onClick={onClickEnter}>
+        Enter
+      </Button>
     </div>
   );
 }

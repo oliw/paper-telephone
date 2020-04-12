@@ -33,6 +33,7 @@ export const Game = {
             return {
               score: 0,
               players: group,
+              playOrderPos: 0,
             };
           });
         },
@@ -67,7 +68,7 @@ export const Game = {
     },
     DescribeThings: {
       endIf: (G, ctx) => {
-        // Phase is over once all the words are gone
+        // Phase is over automatically once all the words are gone
         return G.wordsInBowl.length === 0 && G.currentWord == null;
       },
       onEnd: (G, _ctx) => {
@@ -78,7 +79,7 @@ export const Game = {
         // Make sure the clock is reset
         G.countdownStartedAt = null;
       },
-      // next: "DescribeThingsWithOneWord",
+      next: "DescribeThings",
       turn: {
         onBegin: (G, ctx) => {
           // Shuffle the words
@@ -105,18 +106,18 @@ export const Game = {
           }
         },
         endIf: (G, ctx) => {
-          // Phase is over once all the words are gone
+          // Turn is automatically over once all the words are gone
           return G.wordsInBowl.length === 0 && G.currentWord == null;
         },
         order: {
-          // Assume this gets called after onEnd
-          first: (G, ctx) => {
+          first: (G) => {
             const currentGroup = G.groups[G.groupOrderPos];
             const currentPersonInGroup =
               currentGroup.players[currentGroup.playOrderPos];
+            debugger;
             return currentPersonInGroup;
           },
-          next: (G, ctx) => {
+          next: (G) => {
             const currentGroup = G.groups[G.groupOrderPos];
             const currentPersonInGroup =
               currentGroup.players[currentGroup.playOrderPos];

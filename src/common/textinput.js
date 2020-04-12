@@ -6,9 +6,8 @@ const styles = StyleSheet.create({
   input: {
     // height: "200px",
     fontSize: sizes.textLarge,
-    marginBottom: "10px",
+    marginBottom: "5px",
     borderRadius: "10px",
-    fontWeight: "bold",
     borderColor: colors.blueLight,
     borderWidth: "2px",
   },
