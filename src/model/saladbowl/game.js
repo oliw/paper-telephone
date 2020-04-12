@@ -166,6 +166,19 @@ export const Game = {
       },
     },
   },
+
+  endIf: (G, ctx) => {
+    const accumulatedPoints = G.groups
+      .map((g) => g.score)
+      .reduce((a, b) => a + b, 0);
+    const numRounds = 3;
+    const maxPoints = numRounds * G.wordsWrittenPerPlayer * ctx.numPlayers;
+    if (accumulatedPoints < maxPoints) {
+      return null;
+    } else {
+      return true;
+    }
+  },
 };
 
 export default Game;

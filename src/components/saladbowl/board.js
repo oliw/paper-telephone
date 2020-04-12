@@ -27,7 +27,7 @@ export function Board(props) {
       <Card>
         <Status {...props} />
       </Card>
-      <Card title={phaseTitle}>{phase}</Card>
+      {phase && <Card title={phaseTitle}>{phase}</Card>}
     </Game>
   );
 }

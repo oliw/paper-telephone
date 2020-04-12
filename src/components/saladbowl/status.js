@@ -96,15 +96,13 @@ function buildStatus(G, ctx, gameMetadata) {
   let status = "Unknown";
   let currentPlayer = ctx.currentPlayer;
 
-  if (ctx.phase === "PickGroups") {
+  if (ctx.gameover) {
+    status = "Its game over! Thanks for playing!";
+  } else if (ctx.phase === "PickGroups") {
     status = `Time for player ${currentPlayer}'s turn to choose groups`;
-  }
-
-  if (ctx.phase === "BuildBowl") {
+  } else if (ctx.phase === "BuildBowl") {
     status = "Time for everyone fill up the bowl with words";
-  }
-
-  if (ctx.phase === "DescribeThings") {
+  } else if (ctx.phase === "DescribeThings") {
     status = `Time for player ${currentPlayer} to describe words to the rest of the group`;
   }
 
