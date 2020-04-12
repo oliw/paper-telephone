@@ -1,4 +1,104 @@
-const WORDS_PER_PLAYER = 3;
+const WORDS_PER_PLAYER = 1;
+
+const PhaseTurn = {
+  onBegin: (G, ctx) => {
+    // Shuffle the words
+    G.wordsInBowl = ctx.random.Shuffle(G.wordsInBowl);
+    // Make sure the clock is reset
+    G.countdownStartedAt = null;
+  },
+  onEnd: (G, ctx) => {
+    // Return word in hand to bowl
+    if (G.currentWord) {
+      G.wordsInBowl.push(G.currentWord);
+      G.currentWord = null;
+    }
+
+    const wordsStillInBowl = G.wordsInBowl.length > 0;
+
+    G.groups[G.groupOrderPos].playOrderPos =
+      (G.groups[G.groupOrderPos].playOrderPos + 1) %
+      G.groups[G.groupOrderPos].players.length;
+
+    // If the turn ended because they ran out of time, play will move to the next
+    if (wordsStillInBowl) {
+      G.groupOrderPos = (G.groupOrderPos + 1) % G.groups.length;
+    }
+  },
+  endIf: (G, ctx) => {
+    // Turn is automatically over once all the words are gone
+    return G.wordsInBowl.length === 0 && G.currentWord == null;
+  },
+  order: {
+    first: (G) => {
+      const currentGroup = G.groups[G.groupOrderPos];
+      const currentPersonInGroup =
+        currentGroup.players[currentGroup.playOrderPos];
+      debugger;
+      return currentPersonInGroup;
+    },
+    next: (G) => {
+      const currentGroup = G.groups[G.groupOrderPos];
+      const currentPersonInGroup =
+        currentGroup.players[currentGroup.playOrderPos];
+      return currentPersonInGroup;
+    },
+  },
+};
+
+const PhaseMoves = {
+  StartTheClock: (G, _ctx, currentTime) => {
+    if (G.countdownStartedAt != null) {
+      // Clock is already started
+      return;
+    }
+    // Draw a word
+    const words = G.wordsInBowl;
+    G.currentWord = words.pop();
+    G.wordsInBowl = words;
+    // Start the Clock
+    G.countdownStartedAt = currentTime;
+  },
+  ScoreWord: (G, ctx) => {
+    if (!G.currentWord) {
+      return;
+    }
+    // Get group for current player
+    const currentPlayer = ctx.currentPlayer;
+    const currentGroup = G.groups.find((group) =>
+      group.players.includes(currentPlayer)
+    );
+    // Add to score
+    currentGroup.score = currentGroup.score += 1;
+    // Add word to collectedWords
+    const currentWord = G.currentWord;
+    G.wordsCollected.push(currentWord);
+    G.currentWord = null;
+    if (G.wordsInBowl === []) {
+      // Stop the clock
+      G.countdownStartedAt = null;
+    } else {
+      // Draw a word
+      const words = G.wordsInBowl;
+      G.currentWord = words.pop();
+      G.wordsInBowl = words;
+    }
+  },
+};
+
+const PhaseEndIf = (G, ctx) => {
+  // Phase is over automatically once all the words are gone
+  return G.wordsInBowl.length === 0 && G.currentWord == null;
+};
+
+const PhaseOnEnd = (G, _ctx) => {
+  // Return all the words to the bowl
+  const wordsToReturn = G.wordsCollected;
+  G.wordsInBowl = wordsToReturn;
+  G.wordsCollected = [];
+  // Make sure the clock is reset
+  G.countdownStartedAt = null;
+};
 
 export const Game = {
   name: "saladbowl",
@@ -7,7 +107,7 @@ export const Game = {
 
   setup: (ctx) => {
     return {
-      countdownSeconds: 30,
+      countdownSeconds: null,
       groups: [
         // {
         //   score: 0,
@@ -67,102 +167,44 @@ export const Game = {
       next: "DescribeThings",
     },
     DescribeThings: {
-      endIf: (G, ctx) => {
-        // Phase is over automatically once all the words are gone
-        return G.wordsInBowl.length === 0 && G.currentWord == null;
+      onBegin: (G) => {
+        G.countdownSeconds = 30;
       },
-      onEnd: (G, _ctx) => {
-        // Return all the words to the bowl
-        const wordsToReturn = G.wordsCollected;
-        G.wordsInBowl = wordsToReturn;
-        G.wordsCollected = [];
-        // Make sure the clock is reset
-        G.countdownStartedAt = null;
-      },
-      next: "DescribeThings",
+      endIf: PhaseEndIf,
+      onEnd: PhaseOnEnd,
+      next: "DescribeThingsOneWord",
       turn: {
-        onBegin: (G, ctx) => {
-          // Shuffle the words
-          G.wordsInBowl = ctx.random.Shuffle(G.wordsInBowl);
-          // Make sure the clock is reset
-          G.countdownStartedAt = null;
-        },
-        onEnd: (G, ctx) => {
-          // Return word in hand to bowl
-          if (G.currentWord) {
-            G.wordsInBowl.push(G.currentWord);
-            G.currentWord = null;
-          }
-
-          const wordsStillInBowl = G.wordsInBowl.length > 0;
-
-          G.groups[G.groupOrderPos].playOrderPos =
-            (G.groups[G.groupOrderPos].playOrderPos + 1) %
-            G.groups[G.groupOrderPos].players.length;
-
-          // If the turn ended because they ran out of time, play will move to the next
-          if (wordsStillInBowl) {
-            G.groupOrderPos = (G.groupOrderPos + 1) % G.groups.length;
-          }
-        },
-        endIf: (G, ctx) => {
-          // Turn is automatically over once all the words are gone
-          return G.wordsInBowl.length === 0 && G.currentWord == null;
-        },
-        order: {
-          first: (G) => {
-            const currentGroup = G.groups[G.groupOrderPos];
-            const currentPersonInGroup =
-              currentGroup.players[currentGroup.playOrderPos];
-            debugger;
-            return currentPersonInGroup;
-          },
-          next: (G) => {
-            const currentGroup = G.groups[G.groupOrderPos];
-            const currentPersonInGroup =
-              currentGroup.players[currentGroup.playOrderPos];
-            return currentPersonInGroup;
-          },
-        },
+        ...PhaseTurn,
       },
       moves: {
-        StartTheClock: (G, _ctx, currentTime) => {
-          if (G.countdownStartedAt != null) {
-            // Clock is already started
-            return;
-          }
-          // Draw a word
-          const words = G.wordsInBowl;
-          G.currentWord = words.pop();
-          G.wordsInBowl = words;
-          // Start the Clock
-          G.countdownStartedAt = currentTime;
-        },
-        ScoreWord: (G, ctx) => {
-          if (!G.currentWord) {
-            return;
-          }
-          // Get group for current player
-          const currentPlayer = ctx.currentPlayer;
-          const currentGroup = G.groups.find((group) =>
-            group.players.includes(currentPlayer)
-          );
-          // Add to score
-          currentGroup.score = currentGroup.score += 1;
-          // Add word to collectedWords
-          const currentWord = G.currentWord;
-          G.wordsCollected.push(currentWord);
-          G.currentWord = null;
-          if (G.wordsInBowl === []) {
-            // Stop the clock
-            G.countdownStartedAt = null;
-          } else {
-            // Draw a word
-            const words = G.wordsInBowl;
-            G.currentWord = words.pop();
-            G.wordsInBowl = words;
-          }
-        },
+        ...PhaseMoves,
+      },
+    },
+    DescribeThingsOneWord: {
+      onBegin: (G) => {
+        G.countdownSeconds = 30;
+      },
+      endIf: PhaseEndIf,
+      onEnd: PhaseOnEnd,
+      next: "ActItOut",
+      turn: {
+        ...PhaseTurn,
+      },
+      moves: {
+        ...PhaseMoves,
+      },
+    },
+    ActItOut: {
+      onBegin: (G) => {
+        G.countdownSeconds = 45;
+      },
+      endIf: PhaseEndIf,
+      onEnd: PhaseOnEnd,
+      turn: {
+        ...PhaseTurn,
+      },
+      moves: {
+        ...PhaseMoves,
       },
     },
   },

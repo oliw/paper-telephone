@@ -1,8 +1,8 @@
 import React from "react";
-import Describe from "./describethings/describe";
-import Guess from "./describethings/guess";
+import Describe from "./play/describe";
+import Guess from "./play/guess";
 
-export function DescribeThings(props) {
+export function Play(props) {
   const { moves, _, G, ctx, playerID, gameMetadata } = props;
 
   const myGroup = G.groups.find((g) => g.players.includes(playerID));
@@ -20,4 +20,4 @@ export function DescribeThings(props) {
   );
 }
 
-export default DescribeThings;
+export default Play;
