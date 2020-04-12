@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "common/card";
 import { colors } from "styles";
-import { nameFromId } from "helpers/players";
+import { nameFromId } from "helpers";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     fontFamily: ["Fredoka One", "cursive"],
     color: colors.blueLight,
     padding: 0,
-    margin: 0
-  }
+    margin: 0,
+  },
 });
 
 function WrittenEntry({ entry, first, gameMetadata }) {

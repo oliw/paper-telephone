@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: "relative",
   },
+  wrapper: {},
 });
 
 // const SaladbowlClient = Client({
@@ -34,13 +35,18 @@ const styles = StyleSheet.create({
 
 // const App = () => (
 //   <div>
-//     <SaladbowlClient playerID="0" />
-//     <hr />
-//     <SaladbowlClient playerID="1" />
-//     <hr />
-//     <SaladbowlClient playerID="2" />
-//     <hr />
-//     <SaladbowlClient playerID="3" />
+//     <div className={css(styles.wrapper)}>
+//       <SaladbowlClient playerID="0" />
+//     </div>
+//     <div className={css(styles.wrapper)}>
+//       <SaladbowlClient playerID="1" />
+//     </div>
+//     <div className={css(styles.wrapper)}>
+//       <SaladbowlClient playerID="2" />
+//     </div>
+//     <div className={css(styles.wrapper)}>
+//       <SaladbowlClient playerID="3" />
+//     </div>
 //   </div>
 // );
 

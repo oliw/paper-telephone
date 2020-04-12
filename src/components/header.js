@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: "4px",
     paddingBottom: "4px",
-    backgroundColor: colors.pinkVeryLight
-  }
+    backgroundColor: colors.pinkVeryLight,
+  },
 });
 
 function Header() {

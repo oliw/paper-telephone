@@ -113,6 +113,7 @@ export const Game = {
         //   score: 0,
         //   players: [],
         //   playOrderPos: 0,
+        //   name: 0
         // }
       ],
       wordsInBowl: [],
@@ -129,11 +130,12 @@ export const Game = {
       start: true, // The first phase
       moves: {
         ChooseGroups: (G, _ctx, groups) => {
-          G.groups = groups.map((group) => {
+          G.groups = groups.map((group, idx) => {
             return {
               score: 0,
               players: group,
               playOrderPos: 0,
+              name: `${idx + 1}`,
             };
           });
         },

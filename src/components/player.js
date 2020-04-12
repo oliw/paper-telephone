@@ -1,33 +1,20 @@
 import React from "react";
-import { colors } from "styles";
+import { toColor } from "helpers";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
   container: {
-    textAlign: "center"
+    textAlign: "center",
   },
   icon: {},
   text: {
     padding: 0,
-    margin: 0
-  }
+    margin: 0,
+  },
 });
 
-const stringToColour = function(str) {
-  var hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  var colour = "#";
-  for (let i = 0; i < 3; i++) {
-    var value = (hash >> (i * 8)) & 0xff;
-    colour += ("00" + value.toString(16)).substr(-2);
-  }
-  return colour;
-};
-
 export default function Player({ name }) {
-  const color = stringToColour(name);
+  const color = toColor(name);
   return (
     <div className={css(styles.container)}>
       <svg

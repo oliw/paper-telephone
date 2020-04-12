@@ -3,6 +3,7 @@ import Player from "components/player";
 
 import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite/no-important";
+import Group from "./group";
 
 const styles = StyleSheet.create({
   leader: {
@@ -59,24 +60,11 @@ function GroupMember({ player, ctx }) {
   );
 }
 
-function Group({ group, G, ctx }) {
-  const groupMembers = group.players.map((player, idx) => {
-    return <GroupMember key={idx} player={player} ctx={ctx} />;
-  });
-
-  return (
-    <div className={css(styles.group)}>
-      <div className={css(styles.players)}>{groupMembers}</div>
-      <p>({group.score})</p>
-    </div>
-  );
-}
-
 function Groups(props) {
   const { moves, events, G, ctx, playerID, gameMetadata } = props;
 
   const groups = G.groups.map((group) => (
-    <Group group={group} G={G} ctx={ctx} />
+    <Group group={group} G={G} ctx={ctx} gameMetadata={gameMetadata} />
   ));
 
   return (
