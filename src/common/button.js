@@ -7,17 +7,20 @@ const styles = StyleSheet.create({
     height: "30px",
     borderRadius: "10px",
     fontWeight: "bold",
-    borderColor: colors.blueLight,
+    backgroundColor: colors.blueLight,
+    borderColor: "grey",
+    color: "grey",
     borderWidth: "2px",
     outline: "none",
+    cursor: "pointer",
+    ":hover": {
+      boxShadow: "1px 1px #888888",
+    },
   },
   primary: {
     backgroundColor: colors.blueLight,
-    color: colors.pinkVeryLight,
   },
-  secondary: {
-    color: colors.blueLight,
-  },
+  secondary: {},
 });
 
 export default function Button({ onClick, children, type }) {

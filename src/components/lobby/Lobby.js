@@ -119,7 +119,8 @@ function ExistingGame({
   const freeSeats = players.filter((p) => !p.name);
   const freeSeatsAvailable = freeSeat != null;
   const gameIsFullySeated = !freeSeatsAvailable;
-  const playerCanJoin = !playerIsSeated && freeSeatsAvailable;
+  const playerHasName = playerName !== "Visitor";
+  const playerCanJoin = playerHasName && !playerIsSeated && freeSeatsAvailable;
   const playerCanLeave = playerIsSeated;
   const playerCanEnter = playerIsSeated && gameIsFullySeated;
 

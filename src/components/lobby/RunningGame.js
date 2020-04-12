@@ -4,30 +4,28 @@ import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%"
-  },
-  mainContainer: {
-    flexGrow: "1"
+    height: "100%",
+    position: "relative",
   },
   headerContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
     width: "100%",
-    padding: "3px"
+    padding: "3px",
   },
   headerLeft: {
     flex: 1,
-    textAlign: "left"
+    textAlign: "left",
   },
   headerMiddle: {
     flex: 1,
-    textAlign: "center"
+    textAlign: "center",
   },
   headerRight: {
     flex: 1,
-    textAlign: "right"
-  }
+    textAlign: "right",
+  },
 });
 
 function RunningGameHeader({ runningRoom, playerName, handleExitRoom }) {
@@ -37,7 +35,7 @@ function RunningGameHeader({ runningRoom, playerName, handleExitRoom }) {
   const gameName =
     runningRoom.gameName === "paper-telephone"
       ? "Paper Telephone"
-      : "Unknown Game";
+      : runningRoom.gameName;
   const exitGame = () => {
     handleExitRoom();
   };
@@ -54,9 +52,9 @@ function RunningGameHeader({ runningRoom, playerName, handleExitRoom }) {
 
 export default function RunningGame(props) {
   const { runningGame, rooms, playerName, handleExitRoom } = props;
-  const runningRoom = rooms.find(room => room.gameID === runningGame.gameID);
+  const runningRoom = rooms.find((room) => room.gameID === runningGame.gameID);
   return (
-    <div>
+    <div className={css(styles.container)}>
       <RunningGameHeader
         runningGame={runningGame}
         runningRoom={runningRoom}
