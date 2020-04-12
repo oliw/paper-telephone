@@ -3,6 +3,7 @@ import Player from "components/player";
 
 import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite/no-important";
+import { nameFromId } from "helpers";
 import Group from "./group";
 
 const styles = StyleSheet.create({
@@ -78,11 +79,27 @@ function buildStatus(G, ctx, gameMetadata) {
   if (ctx.gameover) {
     status = "Its game over! Thanks for playing!";
   } else if (ctx.phase === "PickGroups") {
-    status = `Time for player ${currentPlayer}'s turn to choose groups`;
+    status = `Time for ${nameFromId(
+      currentPlayer,
+      gameMetadata
+    )}'s turn to choose groups`;
   } else if (ctx.phase === "BuildBowl") {
     status = "Time for everyone fill up the bowl with words";
   } else if (ctx.phase === "DescribeThings") {
-    status = `Time for player ${currentPlayer} to describe words to the rest of the group`;
+    status = `Time for player ${nameFromId(
+      currentPlayer,
+      gameMetadata
+    )} to describe words to the rest of their group`;
+  } else if (ctx.phase === "DescribeThingsWithOneWord") {
+    status = `Time for ${nameFromId(
+      currentPlayer,
+      gameMetadata
+    )} to describe words using just one word to the rest of their group`;
+  } else if (ctx.phase === "ActItOut") {
+    status = `Time for ${nameFromId(
+      currentPlayer,
+      gameMetadata
+    )} to act out a word to the rest of their group`;
   }
 
   return status;

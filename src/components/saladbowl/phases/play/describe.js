@@ -40,15 +40,19 @@ export function Describe(props) {
   const inProgress = G.countdownStartedAt && !timesUp;
 
   let rules = "";
+  let action = "";
   if (ctx.phase === "DescribeThings") {
     rules =
       "Its your turn to describe words to the rest of your group! There's no skipping, and make sure you don't say the word itself!";
+    action = "Describe";
   } else if (ctx.phase === "DescribeThingsOneWord") {
     rules =
       "Its your turn! This time you can only say one word to describe it, choose wisely!";
+    action = "Descibe using one word:";
   } else if (ctx.phase === "ActItOut") {
     rules =
       "Act out the word on the paper. Noises are allowed. You get a bit longer on the clock, make sure your team is watching you on the video!";
+    action = "Act out:";
   }
 
   return (
@@ -59,7 +63,9 @@ export function Describe(props) {
       )}
       {inProgress && (
         <>
-          <p>Describe: #{G.currentWord}</p>
+          <p>
+            {action}: {G.currentWord}
+          </p>
           <Button onClick={handleScore}>Score!</Button>
         </>
       )}
