@@ -54,10 +54,7 @@ export function Picker(props) {
       </Button>
       {groups.length > 0 && (
         <>
-          <p>
-            The proposed groups are #
-            {formattedGroups.map((g) => g.join(",")).join(" and ")}
-          </p>
+          <p>The proposed groups are {formattedGroups.join(",")}</p>
           <Button onClick={handleClick}>Choose these groups</Button>
         </>
       )}
