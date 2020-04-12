@@ -2,6 +2,7 @@ import React from "react";
 import shuffle from "lodash/shuffle";
 import Button from "common/button";
 import { StyleSheet, css } from "aphrodite";
+import { nameFromId } from "helpers";
 import { colors, sizes } from "styles";
 
 const styles = StyleSheet.create({
@@ -38,6 +39,13 @@ export function Picker(props) {
     moves.ChooseGroups(groups);
   };
 
+  const formatGroup = (group) => {
+    const players = group.map((player) => nameFromId(player, gameMetadata));
+    return `(${players.join(",")})`;
+  };
+
+  const formattedGroups = groups.map((g) => formatGroup(g));
+
   return (
     <div className={css(styles.container)}>
       <p>Ok! It's your turn to decide who goes in what group</p>
@@ -48,7 +56,7 @@ export function Picker(props) {
         <>
           <p>
             The proposed groups are #
-            {groups.map((g) => g.join(",")).join(" and ")}
+            {formattedGroups.map((g) => g.join(",")).join(" and ")}
           </p>
           <Button onClick={handleClick}>Choose these groups</Button>
         </>

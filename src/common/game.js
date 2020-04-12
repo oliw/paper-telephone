@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     boxSizing: "border-box",
     width: "100%",
     height: "100%",
-    // position: "absolute",
+    position: "absolute",
     backgroundColor: colors.blueLight,
     display: "flex",
     justifyContent: "center",

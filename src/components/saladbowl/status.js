@@ -1,6 +1,4 @@
 import React from "react";
-import Player from "components/player";
-
 import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite/no-important";
 import { nameFromId } from "helpers";
@@ -90,7 +88,7 @@ function buildStatus(G, ctx, gameMetadata) {
       currentPlayer,
       gameMetadata
     )} to describe words to the rest of their group`;
-  } else if (ctx.phase === "DescribeThingsWithOneWord") {
+  } else if (ctx.phase === "DescribeThingsOneWord") {
     status = `Time for ${nameFromId(
       currentPlayer,
       gameMetadata
