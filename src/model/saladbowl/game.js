@@ -11,7 +11,8 @@ export const Game = {
       groups: [
         // {
         //   score: 0,
-        //   players: []
+        //   players: [],
+        //   playOrderPos: 0,
         // }
       ],
       wordsInBowl: [],
@@ -19,6 +20,7 @@ export const Game = {
       wordsCollected: [],
       countdownStartedAt: null,
       wordsWrittenPerPlayer: WORDS_PER_PLAYER,
+      groupOrderPos: 0,
     };
   },
 
@@ -85,15 +87,41 @@ export const Game = {
           G.countdownStartedAt = null;
         },
         onEnd: (G, ctx) => {
-          // Return to bowl
+          // Return word in hand to bowl
           if (G.currentWord) {
             G.wordsInBowl.push(G.currentWord);
             G.currentWord = null;
+          }
+
+          const wordsStillInBowl = G.wordsInBowl.length > 0;
+
+          G.groups[G.groupOrderPos].playOrderPos =
+            (G.groups[G.groupOrderPos].playOrderPos + 1) %
+            G.groups[G.groupOrderPos].players.length;
+
+          // If the turn ended because they ran out of time, play will move to the next
+          if (wordsStillInBowl) {
+            G.groupOrderPos = (G.groupOrderPos + 1) % G.groups.length;
           }
         },
         endIf: (G, ctx) => {
           // Phase is over once all the words are gone
           return G.wordsInBowl.length === 0 && G.currentWord == null;
+        },
+        order: {
+          // Assume this gets called after onEnd
+          first: (G, ctx) => {
+            const currentGroup = G.groups[G.groupOrderPos];
+            const currentPersonInGroup =
+              currentGroup.players[currentGroup.playOrderPos];
+            return currentPersonInGroup;
+          },
+          next: (G, ctx) => {
+            const currentGroup = G.groups[G.groupOrderPos];
+            const currentPersonInGroup =
+              currentGroup.players[currentGroup.playOrderPos];
+            return currentPersonInGroup;
+          },
         },
       },
       moves: {
