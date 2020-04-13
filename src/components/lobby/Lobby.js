@@ -12,16 +12,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-  },
-  mainContainer: {
-    flexGrow: "1",
-    width: "100%",
-    minHeight: "100%",
-    backgroundColor: colors.blueLight,
-    paddingTop: "15px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    position: "relative",
   },
   seatedPlayers: {
     display: "flex",
@@ -272,37 +263,39 @@ export default function Lobby(props) {
   const nameChosen = playerName !== "Visitor";
 
   return (
-    <Game>
-      <Card title="Welcome">
-        <p>Hi {playerName || ""}, Welcome to the Paper Gamer Lobby!</p>
-        {!showNameChooser && (
-          <Button onClick={() => setShowNameChooser(true)}>
-            {nameChosen ? "Change" : "Choose"} Name
-          </Button>
+    <div className={css(styles.container)}>
+      <Game>
+        <Card title="Welcome">
+          <p>Hi {playerName || ""}, Welcome to the Paper Gamer Lobby!</p>
+          {!showNameChooser && (
+            <Button onClick={() => setShowNameChooser(true)}>
+              {nameChosen ? "Change" : "Choose"} Name
+            </Button>
+          )}
+          {showNameChooser && <NameChooser onEnter={handleNameChosen} />}
+        </Card>
+        {rooms.length > 0 && (
+          <Card title="Join a Game">
+            <ExistingGameChooser
+              rooms={rooms}
+              playerName={playerName}
+              handleJoinRoom={handleJoinRoom}
+              handleLeaveRoom={handleLeaveRoom}
+              handleStartGame={handleStartGame}
+              handleRequestNewGame={() => setShowNewGameForm(true)}
+            />
+          </Card>
         )}
-        {showNameChooser && <NameChooser onEnter={handleNameChosen} />}
-      </Card>
-      {rooms.length > 0 && (
-        <Card title="Join a Game">
-          <ExistingGameChooser
-            rooms={rooms}
-            playerName={playerName}
-            handleJoinRoom={handleJoinRoom}
-            handleLeaveRoom={handleLeaveRoom}
-            handleStartGame={handleStartGame}
-            handleRequestNewGame={() => setShowNewGameForm(true)}
-          />
-        </Card>
-      )}
-      {(showNewGameForm || rooms.length === 0) && (
-        <Card title="Create a new Game">
-          <NewGameCreator
-            games={gameComponents}
-            createGame={handleCreateRoom}
-            onDismiss={() => setShowNewGameForm(false)}
-          />
-        </Card>
-      )}
-    </Game>
+        {(showNewGameForm || rooms.length === 0) && (
+          <Card title="Create a new Game">
+            <NewGameCreator
+              games={gameComponents}
+              createGame={handleCreateRoom}
+              onDismiss={() => setShowNewGameForm(false)}
+            />
+          </Card>
+        )}
+      </Game>
+    </div>
   );
 }

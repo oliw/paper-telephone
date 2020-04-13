@@ -7,12 +7,9 @@ const styles = StyleSheet.create({
     boxSizing: "border-box",
     width: "100%",
     height: "100%",
-    position: "absolute",
-    backgroundColor: colors.blueLight,
     display: "flex",
     justifyContent: "center",
     padding: "3px",
-    minHeight: "100%",
   },
   game: {
     maxWidth: sizes.cardWidth,

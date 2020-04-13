@@ -5,14 +5,18 @@ import { StyleSheet, css } from "aphrodite";
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    position: "relative",
+    minHeight: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   headerContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    backgroundColor: colors.pinkVeryLight,
     width: "100%",
     padding: "3px",
+    boxSizing: "border-box",
   },
   headerLeft: {
     flex: 1,
@@ -25,6 +29,10 @@ const styles = StyleSheet.create({
   headerRight: {
     flex: 1,
     textAlign: "right",
+  },
+  appContainer: {
+    flexGrow: 1,
+    position: "relative",
   },
 });
 
@@ -42,7 +50,7 @@ function RunningGameHeader({ runningRoom, playerName, handleExitRoom }) {
   return (
     <div className={css(styles.headerContainer)}>
       <div className={css(styles.headerLeft)}>
-        <button onClick={exitGame}>Leave and return to Lobby</button>
+        <button onClick={exitGame}>Back to Lobby</button>
       </div>
       <div className={css(styles.headerMiddle)}>Now playing: {gameName}</div>
       <div className={css(styles.headerRight)}>Playing as: {playerName}</div>
@@ -61,11 +69,13 @@ export default function RunningGame(props) {
         playerName={playerName}
         handleExitRoom={handleExitRoom}
       />
-      <runningGame.app
-        gameID={runningGame.gameID}
-        playerID={runningGame.playerID}
-        credentials={runningGame.credentials}
-      />
+      <div className={css(styles.appContainer)}>
+        <runningGame.app
+          gameID={runningGame.gameID}
+          playerID={runningGame.playerID}
+          credentials={runningGame.credentials}
+        />
+      </div>
     </div>
   );
 }

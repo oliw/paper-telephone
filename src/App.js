@@ -7,21 +7,22 @@ import { Client } from "boardgame.io/react";
 import { Local } from "boardgame.io/multiplayer";
 import LobbyRenderer from "components/lobby/LobbyRenderer";
 import Header from "components/header";
+import { colors } from "styles";
 import { Lobby } from "boardgame.io/react";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
     width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: colors.blueLight,
   },
   header: {},
   main: {
     flexGrow: 1,
-    display: "relative",
+    overflow: "auto",
   },
   wrapper: {},
 });
