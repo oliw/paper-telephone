@@ -4,7 +4,6 @@ import { colors, sizes } from "styles";
 
 const styles = StyleSheet.create({
   input: {
-    // height: "200px",
     fontSize: sizes.textLarge,
     marginBottom: "5px",
     borderRadius: "10px",

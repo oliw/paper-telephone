@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   nameChooserContainer: {
     display: "flex",
     alignItems: "center",
+    flexDirection: "column",
   },
   game: {
     borderRadius: "10px",
