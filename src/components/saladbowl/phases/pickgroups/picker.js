@@ -4,11 +4,18 @@ import Button from "common/button";
 import { StyleSheet, css } from "aphrodite";
 import { nameFromId } from "helpers";
 import { colors, sizes } from "styles";
+import Text from "common/text";
 
 const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
+  },
+  teamSizeContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "10px",
+    marginBottom: "10px",
   },
 });
 
@@ -46,9 +53,28 @@ export function Picker(props) {
 
   const formattedGroups = groups.map((g) => formatGroup(g));
 
+  const handleSelectGroupSize = (event) => {
+    const numGroups = Number(event.target.value);
+    if (numPlayers < numGroups) {
+      return;
+    }
+    setNumGroups(numGroups);
+    setGroups([]);
+  };
+
   return (
     <div className={css(styles.container)}>
-      <p>Ok! It's your turn to decide who goes in what group</p>
+      <Text>Ok! It's your turn to decide who goes in what team</Text>
+      <div className={css(styles.teamSizeContainer)}>
+        <Text>How many teams?</Text>
+        <select value={numGroups} onChange={handleSelectGroupSize}>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+        </select>
+      </div>
+
       <Button onClick={handleShuffleClick}>
         Randomize the {numGroups} groups!
       </Button>

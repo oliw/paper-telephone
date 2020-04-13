@@ -75,10 +75,10 @@ function buildStatus(G, ctx, gameMetadata) {
   if (ctx.gameover) {
     status = "Its game over! Thanks for playing!";
   } else if (ctx.phase === "PickGroups") {
-    status = `Time for ${nameFromId(
+    status = `${nameFromId(
       currentPlayer,
       gameMetadata
-    )}'s turn to choose groups`;
+    )} is sorting out the groups`;
   } else if (ctx.phase === "BuildBowl") {
     status = "Time for everyone fill up the bowl with words";
   } else if (ctx.phase === "DescribeThings") {
