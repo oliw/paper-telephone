@@ -18,9 +18,7 @@ const styles = StyleSheet.create({
     marginRight: "10px",
     display: "flex",
     justifyContent: "center",
-  },
-  group: {
-    marginRight: "30px",
+    flexWrap: "wrap",
   },
   row: {
     display: "flex",

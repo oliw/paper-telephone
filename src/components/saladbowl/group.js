@@ -27,13 +27,21 @@ const styles = StyleSheet.create({
   members: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  player: {
+    marginRight: "5px",
   },
 });
 
 function Player({ player, gameMetadata }) {
   const name = nameFromId(player, gameMetadata);
   const color = toColor(name);
-  return <Text color={color}>{name}</Text>;
+  return (
+    <div className={css(styles.player)}>
+      <Text color={color}>{name}</Text>
+    </div>
+  );
 }
 
 function Group({ group, G, ctx, gameMetadata }) {
