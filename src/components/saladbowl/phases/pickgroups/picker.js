@@ -94,7 +94,7 @@ export function Picker(props) {
       </div>
       <div className={css(styles.teamSizeContainer)}>
         <Text>How many words per person?</Text>
-        <select value={numGroups} onChange={handleSelectWords}>
+        <select value={wordsPerPlayer} onChange={handleSelectWords}>
           {wordsOptions}
         </select>
       </div>
