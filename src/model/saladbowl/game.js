@@ -1,5 +1,3 @@
-const WORDS_PER_PLAYER = 1;
-
 const PhaseTurn = {
   onBegin: (G, ctx) => {
     // Shuffle the words
@@ -120,7 +118,7 @@ export const Game = {
       currentWord: null,
       wordsCollected: [],
       countdownStartedAt: null,
-      wordsWrittenPerPlayer: WORDS_PER_PLAYER,
+      wordsWrittenPerPlayer: 1,
       groupOrderPos: 0,
     };
   },
@@ -129,7 +127,7 @@ export const Game = {
     PickGroups: {
       start: true, // The first phase
       moves: {
-        ChooseGroups: (G, _ctx, groups) => {
+        ChooseGroups: (G, _ctx, groups, wordsPerPlayer) => {
           G.groups = groups.map((group, idx) => {
             return {
               score: 0,
@@ -138,6 +136,7 @@ export const Game = {
               name: `${idx + 1}`,
             };
           });
+          G.wordsWrittenPerPlayer = wordsPerPlayer || 5;
         },
       },
       endIf: (G, ctx) => {
@@ -164,7 +163,9 @@ export const Game = {
       },
       endIf: (G, ctx) => {
         // Phase is done if there are enough words in the bowl
-        return G.wordsInBowl.length === ctx.numPlayers * WORDS_PER_PLAYER;
+        return (
+          G.wordsInBowl.length === ctx.numPlayers * G.wordsWrittenPerPlayer
+        );
       },
       next: "DescribeThings",
     },

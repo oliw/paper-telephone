@@ -26,6 +26,7 @@ export function Picker(props) {
   const players = ctx.playOrder;
   const [numGroups, setNumGroups] = React.useState(2);
   const [groups, setGroups] = React.useState([]);
+  const [wordsPerPlayer, setWordsPerPlayer] = React.useState(5);
   const handleShuffleClick = () => {
     let groups = Array(numGroups);
     let shuffledPlayers = shuffle(players);
@@ -42,8 +43,25 @@ export function Picker(props) {
     setGroups(groups);
   };
 
+  const wordsOptions = [];
+  for (let i = 1; i <= 15; i++) {
+    wordsOptions.push(
+      <option id={i} value={i}>
+        {i}
+      </option>
+    );
+  }
+
+  const handleSelectWords = (event) => {
+    const numWords = Number(event.target.value);
+    if (numPlayers < numGroups) {
+      return;
+    }
+    setWordsPerPlayer(numWords);
+  };
+
   const handleClick = () => {
-    moves.ChooseGroups(groups);
+    moves.ChooseGroups(groups, wordsPerPlayer);
   };
 
   const formatGroup = (group) => {
@@ -64,7 +82,7 @@ export function Picker(props) {
 
   return (
     <div className={css(styles.container)}>
-      <Text>Ok! It's your turn to decide who goes in what team</Text>
+      <Text>Ok! It's your job to set up the game</Text>
       <div className={css(styles.teamSizeContainer)}>
         <Text>How many teams?</Text>
         <select value={numGroups} onChange={handleSelectGroupSize}>
@@ -74,7 +92,12 @@ export function Picker(props) {
           <option value={5}>5</option>
         </select>
       </div>
-
+      <div className={css(styles.teamSizeContainer)}>
+        <Text>How many words per person?</Text>
+        <select value={numGroups} onChange={handleSelectWords}>
+          {wordsOptions}
+        </select>
+      </div>
       <Button onClick={handleShuffleClick}>
         Randomize the {numGroups} groups!
       </Button>
