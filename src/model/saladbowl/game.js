@@ -11,17 +11,13 @@ const PhaseTurn = {
       G.wordsInBowl.push(G.currentWord);
       G.currentWord = null;
     }
-
-    const wordsStillInBowl = G.wordsInBowl.length > 0;
-
+    // Next time its this groups turn, itll be the next person in the group
     G.groups[G.groupOrderPos].playOrderPos =
       (G.groups[G.groupOrderPos].playOrderPos + 1) %
       G.groups[G.groupOrderPos].players.length;
 
-    // If the turn ended because they ran out of time, play will move to the next
-    if (wordsStillInBowl) {
-      G.groupOrderPos = (G.groupOrderPos + 1) % G.groups.length;
-    }
+    // Play passes to the next group
+    G.groupOrderPos = (G.groupOrderPos + 1) % G.groups.length;
   },
   endIf: (G, ctx) => {
     // Turn is automatically over once all the words are gone
