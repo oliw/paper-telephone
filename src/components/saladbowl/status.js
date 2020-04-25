@@ -3,6 +3,7 @@ import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite/no-important";
 import { nameFromId } from "helpers";
 import Group from "./group";
+import { shake } from "react-animations";
 
 const styles = StyleSheet.create({
   leader: {
@@ -43,6 +44,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexWrap: "nowrap",
     alignItems: "center",
+  },
+  timesUp: {
+    animationName: shake,
+    animationDuration: "1s",
+    animationIterationCount: 3,
   },
 });
 
@@ -121,7 +127,7 @@ export function Status(props) {
           setSecondsRemaining(Math.floor(millisRemaining / 1000));
         }
       } else {
-        setSecondsRemaining(0);
+        setSecondsRemaining(null);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -132,11 +138,15 @@ export function Status(props) {
     wordsInBowl += 1;
   }
 
+  const timesUp = secondsRemaining === 0;
+
   return (
     <div className={css(styles.container)}>
       <div className={css(styles.row)}>
         <IconWithText icon="🥣" text={wordsInBowl} />
-        <IconWithText icon="⏲" text={secondsRemaining || "N/A"} />
+        <div className={css(timesUp && styles.timesUp)}>
+          <IconWithText icon="⏲" text={secondsRemaining || "N/A"} />
+        </div>
       </div>
       <Groups {...props} />
       <div className={css(styles.status)}>{status}</div>

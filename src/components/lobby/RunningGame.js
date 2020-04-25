@@ -1,6 +1,7 @@
 import React from "react";
 import { colors } from "styles";
 import { StyleSheet, css } from "aphrodite";
+import { zoomIn } from "react-animations";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,8 @@ const styles = StyleSheet.create({
   headerMiddle: {
     flex: 1,
     textAlign: "center",
+    animationName: zoomIn,
+    animationDuration: "1s",
   },
   headerRight: {
     flex: 1,

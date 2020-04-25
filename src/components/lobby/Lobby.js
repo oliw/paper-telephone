@@ -6,6 +6,7 @@ import Player from "components/player";
 import Game from "common/game";
 import Button from "common/button";
 import TextInput from "common/textinput";
+import { headShake } from "react-animations";
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +39,11 @@ const styles = StyleSheet.create({
   },
   gameContainer: {
     marginBottom: "10px",
+  },
+  chooseName: {
+    animationName: headShake,
+    animationDuration: "1s",
+    animationIterationCount: 2,
   },
 });
 
@@ -268,10 +274,17 @@ export default function Lobby(props) {
       <Game>
         <Card title="Welcome">
           <p>Hi {playerName || ""}, Welcome to the Paper Gamer Lobby!</p>
-          {!showNameChooser && (
+          {!showNameChooser && nameChosen && (
             <Button onClick={() => setShowNameChooser(true)}>
-              {nameChosen ? "Change" : "Choose"} Name
+              Change Name
             </Button>
+          )}
+          {!showNameChooser && !nameChosen && (
+            <div className={css(styles.chooseName)}>
+              <Button onClick={() => setShowNameChooser(true)}>
+                Choose Name
+              </Button>
+            </div>
           )}
           {showNameChooser && <NameChooser onEnter={handleNameChosen} />}
         </Card>

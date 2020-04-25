@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     fontFamily: ["Fredoka One", "cursive"],
     color: colors.blueLight,
     padding: 0,
-    margin: 0
-  }
+    margin: 0,
+  },
 });
 
 export default function Logo() {
