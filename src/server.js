@@ -2,7 +2,7 @@
 const Server = require("boardgame.io/server").Server;
 const TelephoneGame = require("./model/telephone/game").Game;
 const SaladbowlGame = require("./model/saladbowl/game").Game;
-const server = Server({ games: [SaladbowlGame] });
+const server = Server({ games: [SaladbowlGame, TelephoneGame] });
 
 const port = process.env.PORT || 8000;
 
