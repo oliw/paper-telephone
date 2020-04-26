@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   seatedPlayers: {
     display: "flex",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   seatedPlayersLabel: {
     marginRight: "10px",
