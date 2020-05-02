@@ -1,14 +1,8 @@
 // src/server.js
-const { Server, Mongo } = require("boardgame.io/server");
+const Server = require("boardgame.io/server").Server;
 const TelephoneGame = require("./model/telephone/game").Game;
 const SaladbowlGame = require("./model/saladbowl/game").Game;
-const server = Server({
-  games: [SaladbowlGame, TelephoneGame],
-  db: new Mongo({
-    url: process.env.MONGODB_URI,
-    dbname: "bgio",
-  }),
-});
+const server = Server({ games: [SaladbowlGame, TelephoneGame] });
 
 const port = process.env.PORT || 8000;
 
